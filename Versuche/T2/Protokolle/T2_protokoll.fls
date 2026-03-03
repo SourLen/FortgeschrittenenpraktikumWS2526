@@ -443,10 +443,15 @@ INPUT C:\Users\blanc\AppData\Local\MiKTeX\fonts\tfm\public\rsfs\rsfs10.tfm
 INPUT C:\Users\blanc\AppData\Local\MiKTeX\fonts\tfm\public\rsfs\rsfs7.tfm
 INPUT C:\Users\blanc\AppData\Local\MiKTeX\fonts\tfm\public\rsfs\rsfs5.tfm
 INPUT C:\Users\blanc\AppData\Local\Programs\MiKTeX\fonts\tfm\public\stix\t1-stixgeneral.tfm
+INPUT C:\Users\blanc\AppData\Local\Programs\MiKTeX\fonts\tfm\public\stix\t1-stixgeneral.tfm
+INPUT C:\Users\blanc\AppData\Local\Programs\MiKTeX\fonts\tfm\public\stix\t1-stixgeneral.tfm
 INPUT C:\Users\blanc\AppData\Local\Programs\MiKTeX\fonts\vf\public\stix\t1-stixgeneralsc.vf
 INPUT C:\Users\blanc\AppData\Local\Programs\MiKTeX\fonts\tfm\public\stix\t1-stixgeneral.tfm
 INPUT C:\Users\blanc\AppData\Local\MiKTeX\fonts\map\pdftex\pdftex.map
 INPUT C:\Users\blanc\AppData\Local\Programs\MiKTeX\fonts\enc\dvips\stix\stix-t1.enc
+INPUT .\a_b_theta_table.tex
+INPUT .\a_b_theta_table.tex
+INPUT a_b_theta_table.tex
 INPUT T2_protokoll.aux
 INPUT .\T2_protokoll.out
 INPUT .\T2_protokoll.out

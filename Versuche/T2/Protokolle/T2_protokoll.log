@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2026.3.3)  3 MAR 2026 18:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2026.2.21)  3 MAR 2026 22:55
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -938,7 +938,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 10--18
 
 [1
 
-{C:/Users/blanc/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/stix/stix-t1.enc} <./skizze1.pdf>]) [2] (T2_protokoll.aux)
+{C:/Users/blanc/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/stix/stix-t1.enc} <./skizze1.pdf>] (a_b_theta_table.tex)) [2] (T2_protokoll.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-06>
@@ -952,15 +952,15 @@ Package rerunfilecheck Info: File `T2_protokoll.out' has not changed.
 (rerunfilecheck)             Checksum: 068FB402B7CEA68FBBACBE2734801B49;259.
  ) 
 Here is how much of TeX's memory you used:
- 40865 strings out of 467871
- 949181 string characters out of 5418377
+ 40873 strings out of 467870
+ 949486 string characters out of 5418355
  1379529 words of memory out of 5000000
- 69142 multiletter control sequences out of 15000+600000
- 673076 words of font info for 97 fonts, out of 8000000 for 9000
+ 69148 multiletter control sequences out of 15000+600000
+ 678620 words of font info for 99 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,11n,118p,873b,1119s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/STIXGeneral-Bold.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/STIXGeneral-Regular.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/stix-mathex.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/stix-mathit.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/stix-mathrm.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/stix-mathscr.pfb>
-Output written on T2_protokoll.pdf (2 pages, 140480 bytes).
+Output written on T2_protokoll.pdf (2 pages, 141185 bytes).
 PDF statistics:
  77 PDF objects out of 1000 (max. 8388607)
  6 named destinations out of 1000 (max. 500000)

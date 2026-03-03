@@ -1,10 +1,10 @@
 # Fdb version 4
-["pdflatex"] 1772560374.65024 "c:/Users/blanc/OneDrive/studies/RWTH/Module/Programmieren/Fortgeschrittenen Praktikum/FortgeschrittenenpraktikumWS2526/Versuche/T2/Protokolle/T2_protokoll.tex" "T2_protokoll.pdf" "T2_protokoll" 1772560377.53717 0
-  "C:/Users/blanc/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1772541912 84470 1b03f303430b1250744b51ca4bdbdd0b ""
-  "C:/Users/blanc/AppData/Local/MiKTeX/fonts/tfm/public/rsfs/rsfs10.tfm" 1772548104 688 37338d6ab346c2f1466b29e195316aa4 ""
-  "C:/Users/blanc/AppData/Local/MiKTeX/fonts/tfm/public/rsfs/rsfs5.tfm" 1772548106 684 3a51bd4fd9600428d5264cf25f04bb9a ""
-  "C:/Users/blanc/AppData/Local/MiKTeX/fonts/tfm/public/rsfs/rsfs7.tfm" 1772548105 692 1b6510779f0f05e9cbf03e0f6c8361e6 ""
-  "C:/Users/blanc/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1772541898 13333510 31a84ffdfe99f52dbd94d33a3f158ccd ""
+["pdflatex"] 1772574930.40552 "c:/Users/blanc/OneDrive/studies/RWTH/Module/Programmieren/Fortgeschrittenen Praktikum/FortgeschrittenenpraktikumWS2526/Versuche/T2/Protokolle/T2_protokoll.tex" "T2_protokoll.pdf" "T2_protokoll" 1772574933.41126 0
+  "C:/Users/blanc/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1764853299 86247 740e71043c58cf35a53b246af32a0286 ""
+  "C:/Users/blanc/AppData/Local/MiKTeX/fonts/tfm/public/rsfs/rsfs10.tfm" 1761257194 688 37338d6ab346c2f1466b29e195316aa4 ""
+  "C:/Users/blanc/AppData/Local/MiKTeX/fonts/tfm/public/rsfs/rsfs5.tfm" 1761257195 684 3a51bd4fd9600428d5264cf25f04bb9a ""
+  "C:/Users/blanc/AppData/Local/MiKTeX/fonts/tfm/public/rsfs/rsfs7.tfm" 1761258343 692 1b6510779f0f05e9cbf03e0f6c8361e6 ""
+  "C:/Users/blanc/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1771632544 13333552 475ef7cc14dcdcc5b56c8bb0bf1003ff ""
   "C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/stix/stix-t1.enc" 1356261742 7013 c55cc8669071ac14036c4a0c96c16202 ""
   "C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/symbols/msam10.tfm" 1233951854 916 f87d7c45f9c908e672703b83b72241a3 ""
   "C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/tfm/public/amsfonts/symbols/msam7.tfm" 1233951854 928 2dc8d444221b7a635bb58038579b861a ""
@@ -232,11 +232,12 @@
   "C:/Users/blanc/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/blanc/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
   "C:/Users/blanc/OneDrive/studies/LaTeX/my/tex/latex/properties/newcommands.sty" 1761257007 755 202c27fc51c2cfdf9da3119edcd21518 ""
-  "Compton_Streuung.tex" 1772560369 3394 d959b9899d4ed1bd4badfd966accb498 ""
+  "Compton_Streuung.tex" 1772573742 3633 8869e7a63b77e5d550c94b9780da140f ""
   "Gammaspektroskopie.tex" 1772542586 28 7b5d7fa29db80c22db8b0e8971359efb ""
-  "T2_protokoll.aux" 1772560377 528 1da33e09c640416c22453ec1960b0c0b "pdflatex"
-  "T2_protokoll.out" 1772560377 259 068fb402b7cea68fbbacbe2734801b49 "pdflatex"
+  "T2_protokoll.aux" 1772574932 528 1da33e09c640416c22453ec1960b0c0b "pdflatex"
+  "T2_protokoll.out" 1772574932 259 068fb402b7cea68fbbacbe2734801b49 "pdflatex"
   "T2_protokoll.tex" 1772556237 1452 74fa5a93660f45f376c5b5b11e4315e3 ""
+  "a_b_theta_table.tex" 1772574929 664 dce2bf31960387e34e724f4c0127c177 ""
   "c:/Users/blanc/OneDrive/studies/RWTH/Module/Programmieren/Fortgeschrittenen Praktikum/FortgeschrittenenpraktikumWS2526/Versuche/T2/Protokolle/T2_protokoll.tex" 1772556237 1452 74fa5a93660f45f376c5b5b11e4315e3 ""
   "skizze1.pdf" 1772555401 24655 af7a4dc98a3f56d45a1a86d030e46ce4 ""
   (generated)
