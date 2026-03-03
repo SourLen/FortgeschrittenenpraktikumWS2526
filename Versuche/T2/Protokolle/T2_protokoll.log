@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2026.3.3)  3 MAR 2026 13:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2026.3.3)  3 MAR 2026 13:56
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -867,7 +867,7 @@ Package hyperref Info: Link coloring OFF on input line 44.
 File: translations-basic-dictionary-german.trsl (german translation file `translations-basic-dictionary')
 )
 Package translations Info: loading dictionary `translations-basic-dictionary' for `german'. on input line 44.
- [1
+ (Gammaspektroskopie.tex) (Compton_Streuung.tex) [1
 
 {C:/Users/blanc/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/stix/stix-t1.enc}] (T2_protokoll.aux)
  ***********
@@ -875,20 +875,20 @@ LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-06>
  ***********
 Package rerunfilecheck Info: File `T2_protokoll.out' has not changed.
-(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+(rerunfilecheck)             Checksum: 068FB402B7CEA68FBBACBE2734801B49;259.
  ) 
 Here is how much of TeX's memory you used:
- 40642 strings out of 467871
- 943970 string characters out of 5418377
- 1360637 words of memory out of 5000000
- 68983 multiletter control sequences out of 15000+600000
- 643554 words of font info for 47 fonts, out of 8000000 for 9000
+ 40665 strings out of 467871
+ 944695 string characters out of 5418377
+ 1361637 words of memory out of 5000000
+ 68998 multiletter control sequences out of 15000+600000
+ 649055 words of font info for 49 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,11n,118p,873b,1051s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,11n,118p,873b,1052s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/STIXGeneral-Bold.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/STIXGeneral-Regular.pfb>
-Output written on T2_protokoll.pdf (1 page, 78888 bytes).
+Output written on T2_protokoll.pdf (1 page, 81804 bytes).
 PDF statistics:
- 25 PDF objects out of 1000 (max. 8388607)
- 2 named destinations out of 1000 (max. 500000)
- 13 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 34 PDF objects out of 1000 (max. 8388607)
+ 4 named destinations out of 1000 (max. 500000)
+ 29 words of extra memory for PDF output out of 10000 (max. 10000000)
 
