@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1772541913.86694 "c:/Users/blanc/OneDrive/studies/RWTH/Module/Programmieren/Fortgeschrittenen Praktikum/FortgeschrittenenpraktikumWS2526/Versuche/T2/Protokolle/T2_protokoll.tex" "T2_protokoll.pdf" "T2_protokoll" 1772541915.17497 0
+["pdflatex"] 1772541969.17986 "c:/Users/blanc/OneDrive/studies/RWTH/Module/Programmieren/Fortgeschrittenen Praktikum/FortgeschrittenenpraktikumWS2526/Versuche/T2/Protokolle/T2_protokoll.tex" "T2_protokoll.pdf" "T2_protokoll" 1772541970.44668 0
   "C:/Users/blanc/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1772541912 84470 1b03f303430b1250744b51ca4bdbdd0b ""
   "C:/Users/blanc/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1772541898 13333510 31a84ffdfe99f52dbd94d33a3f158ccd ""
   "C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/stix/stix-t1.enc" 1356261742 7013 c55cc8669071ac14036c4a0c96c16202 ""
@@ -194,10 +194,10 @@
   "C:/Users/blanc/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/blanc/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1729265222 55384 b454dec21c2d9f45ec0b793f0995b992 ""
   "C:/Users/blanc/OneDrive/studies/LaTeX/my/tex/latex/properties/newcommands.sty" 1761257007 755 202c27fc51c2cfdf9da3119edcd21518 ""
-  "T2_protokoll.aux" 1772541914 300 3325956e85e239beb64d5db0b0f06650 "pdflatex"
-  "T2_protokoll.out" 1772541914 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "T2_protokoll.tex" 1772541887 1135 f25d4281d1a3dbc54865a32418388d97 ""
-  "c:/Users/blanc/OneDrive/studies/RWTH/Module/Programmieren/Fortgeschrittenen Praktikum/FortgeschrittenenpraktikumWS2526/Versuche/T2/Protokolle/T2_protokoll.tex" 1772541887 1135 f25d4281d1a3dbc54865a32418388d97 ""
+  "T2_protokoll.aux" 1772541970 300 3325956e85e239beb64d5db0b0f06650 "pdflatex"
+  "T2_protokoll.out" 1772541970 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "T2_protokoll.tex" 1772541968 1161 fa30d04e89e13beae66fdb6685fce85b ""
+  "c:/Users/blanc/OneDrive/studies/RWTH/Module/Programmieren/Fortgeschrittenen Praktikum/FortgeschrittenenpraktikumWS2526/Versuche/T2/Protokolle/T2_protokoll.tex" 1772541968 1161 fa30d04e89e13beae66fdb6685fce85b ""
   (generated)
   "T2_protokoll.aux"
   "T2_protokoll.log"
