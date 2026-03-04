@@ -2,6 +2,7 @@ import numpy as np
 from uncertainties import ufloat 
 from uncertainties import umath
 import pandas as pd
+from scipy.optimize import curve_fit
 import os
 path = os.path.dirname(os.path.abspath(__file__))
 os.chdir(path)
@@ -29,17 +30,49 @@ print('d = ',d)
 
 # Energien der Compton gestreuten Photonen
 
-E = np.array([ufloat(0.662, 0) / (1 + (0.662/(0.511))*(1-umath.cos(umath.radians(theta[i])))) for i in range(len(theta))])
-print('E = ',E)
+E_diffracted = np.array([ufloat(0.662, 0) / (1 + (0.662/(0.511))*(1-umath.cos(umath.radians(theta[i])))) for i in range(len(theta))])
 
 # calculations for absorbtion
 
+## Data for absorption calculation
+
 x1 = np.array([umath.sqrt(a[i]**2 + d**2) for i in range(len(a1))])
 x2 = np.array([umath.sqrt(b[i]**2 + d**2) for i in range(len(a1))])
-xring = umath.sqrt( 2*(d2/2)**2)
+xring = d2*umath.sqrt(1/2)
 
-density = ufloat(7.8744, 0) # g/cm^3 https://physics.nist.gov/PhysRefData/XrayMassCoef/tab1.html
-mac = ufloat(0, 0) # cm^2/g https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z26.html
+density_al = 2.330E+00 # g/cm^3 https://physics.nist.gov/PhysRefData/XrayMassCoef/tab1.html
+E_ref_al = np.array([1.50000E-01, 2.00000E-01, 3.00000E-01, 4.00000E-01, 5.00000E-01, 6.00000E-01, 8.00000E-01]) # MeV https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z13.html
+mac_ref_al = np.array([1.378E-01, 1.223E-01, 1.042E-01, 9.276E-02, 8.445E-02, 7.802E-02, 6.841E-02]) # cm^2/g https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z13.html
+density_air = 1.205E-03 # g/cm^3 https://physics.nist.gov/PhysRefData/XrayMassCoef/tab2.html
+E_ref_air = np.array([1.50000E-01, 2.00000E-01, 3.00000E-01, 4.00000E-01, 5.00000E-01, 6.00000E-01, 8.00000E-01]) # MeV https://physics.nist.gov/PhysRefData/XrayMassCoef/ComTab/air.html
+mac_ref_air = np.array([1.356E-01, 1.223E-01, 1.067E-01, 9.549E-02, 8.712E-02, 8.055E-02, 7.074E-02]) # cm^2/g https://physics.nist.gov/PhysRefData/XrayMassCoef/ComTab/air.html
+
+
+## functions for absorption calculation
+
+def mac(E, alpha, beta):
+    return alpha*E+beta
+
+def get_mac(E, E_ref, mac_ref):
+    popt, pcov = curve_fit(mac, E_ref, mac_ref)
+    return mac(E, ufloat(popt[0], pcov[0, 0]**0.5), ufloat(popt[1], pcov[1, 1]**0.5))
+
+def get_absorption(E, E0, x_before, x_after, x_inside, material):
+    x_steps = np.array((x_before, x_inside, x_inside, x_after))
+    E_steps = np.array([E0, E0, E, E])
+    density_steps = np.array([density_air, material[0], material[0], density_air])
+    E_ref_steps = np.array([E_ref_air, material[1], material[1], E_ref_air])
+    mac_ref_steps = np.array([mac_ref_air, material[2], material[2], mac_ref_air])
+    mac_steps = np.array([get_mac(E_steps[i], E_ref_steps[i], mac_ref_steps[i]) for i in range(len(E_steps))])
+    eta = 1
+    for i in range(len(x_steps)):
+        eta *= umath.exp(-mac_steps[i] * density_steps[i] * x_steps[i])
+    return eta
+
+al = [density_al, E_ref_al, mac_ref_al]
+
+print(get_absorption(E_diffracted[0], 0.662, x2[0], x1[0], xring, al))
+
 
 # Generate LaTeX table rows
 latex_rows = []
