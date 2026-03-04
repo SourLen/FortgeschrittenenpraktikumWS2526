@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2026.2.21)  4 MAR 2026 00:58
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2026.3.3)  4 MAR 2026 14:26
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -873,77 +873,77 @@ Package hyperref Info: Link coloring OFF on input line 51.
 File: translations-basic-dictionary-german.trsl (german translation file `translations-basic-dictionary')
 )
 Package translations Info: loading dictionary `translations-basic-dictionary' for `german'. on input line 51.
- (Gammaspektroskopie.tex) (Compton_Streuung.tex
-<skizze1.pdf, id=34, 293.16025pt x 90.0685pt>
-File: skizze1.pdf Graphic file (type pdf)
-<use skizze1.pdf>
-Package pdftex.def Info: skizze1.pdf  used on input line 8.
+ (Einführung.tex) [1
+
+{C:/Users/blanc/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/stix/stix-t1.enc}] (Durchführung.tex
+<skizzen/skizze1.pdf, id=49, 293.16025pt x 90.0685pt>
+File: skizzen/skizze1.pdf Graphic file (type pdf)
+<use skizzen/skizze1.pdf>
+Package pdftex.def Info: skizzen/skizze1.pdf  used on input line 10.
 (pdftex.def)             Requested size: 293.15952pt x 90.06827pt.
-LaTeX Font Info:    Trying to load font information for LS1+stixscr on input line 10.
+LaTeX Font Info:    Trying to load font information for LS1+stixscr on input line 12.
  (C:\Users\blanc\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls1stixscr.fd
 File: ls1stixscr.fd 2015/04/17 v1.1.2-latex STIX script LS1 font definitions
 )
-LaTeX Font Info:    Trying to load font information for LS2+stixex on input line 10.
+LaTeX Font Info:    Trying to load font information for LS2+stixex on input line 12.
  (C:\Users\blanc\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls2stixex.fd
 File: ls2stixex.fd 2015/04/17 v1.1.2-latex STIX extentions LS2 font definitions
 )
-LaTeX Font Info:    Trying to load font information for U+msa on input line 10.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 12.
  (C:\Users\blanc\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 10.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 12.
  (C:\Users\blanc\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+lasy on input line 10.
+LaTeX Font Info:    Trying to load font information for U+lasy on input line 12.
  (C:\Users\blanc\AppData\Local\Programs\MiKTeX\tex/latex/base\ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
 
 LaTeX Font Warning: Font shape `U/lasy/m/n' in size <7.5> not available
-(Font)              size <7> substituted on input line 10.
+(Font)              size <7> substituted on input line 12.
 
-LaTeX Font Info:    Trying to load font information for LS1+stixfrak on input line 10.
+LaTeX Font Info:    Trying to load font information for LS1+stixfrak on input line 12.
 (C:\Users\blanc\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls1stixfrak.fd
 File: ls1stixfrak.fd 2015/04/17 v1.1.2-latex STIX fraktur LS1 font definitions
 )
-LaTeX Font Info:    Trying to load font information for LS1+stixbb on input line 10.
+LaTeX Font Info:    Trying to load font information for LS1+stixbb on input line 12.
  (C:\Users\blanc\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls1stixbb.fd
 File: ls1stixbb.fd 2015/04/17 v1.1.2-latex STIX blackboard LS1 font definitions
 )
-LaTeX Font Info:    Trying to load font information for LS2+stixcal on input line 10.
+LaTeX Font Info:    Trying to load font information for LS2+stixcal on input line 12.
  (C:\Users\blanc\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls2stixcal.fd
 File: ls2stixcal.fd 2015/04/17 v1.1.2-latex STIX calligraphic LS2 font definitions
 )
-LaTeX Font Info:    Trying to load font information for LS1+stixsf on input line 10.
+LaTeX Font Info:    Trying to load font information for LS1+stixsf on input line 12.
  (C:\Users\blanc\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls1stixsf.fd
 File: ls1stixsf.fd 2015/04/17 v1.1.2-latex STIX sans-serif LS1 font definitions
 )
-LaTeX Font Info:    Trying to load font information for LS2+stixtt on input line 10.
+LaTeX Font Info:    Trying to load font information for LS2+stixtt on input line 12.
  (C:\Users\blanc\AppData\Local\Programs\MiKTeX\tex/latex/stix\ls2stixtt.fd
 File: ls2stixtt.fd 2015/04/17 v1.1.2-latex STIX typewriter LS2 font definitions
 )
-LaTeX Font Info:    Trying to load font information for U+rsfs on input line 10.
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 12.
  (C:\Users\blanc\AppData\Local\Programs\MiKTeX\tex/latex/jknappen\ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
 
 LaTeX Font Warning: Font shape `U/rsfs/m/n' in size <7.5> not available
-(Font)              size <7> substituted on input line 10.
+(Font)              size <7> substituted on input line 12.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 13--21
-
- []
-
-[1
-
-{C:/Users/blanc/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/stix/stix-t1.enc} <./skizze1.pdf>] (a_b_theta_table.tex)
-Underfull \hbox (badness 10000) in paragraph at lines 65--66
+Underfull \hbox (badness 10000) in paragraph at lines 15--23
 
  []
 
-) [2] (T2_protokoll.aux)
+[2 <./skizzen/skizze1.pdf>] (a_b_theta_table.tex)
+Underfull \hbox (badness 10000) in paragraph at lines 67--68
+
+ []
+
+) [3] (Analyse.tex) [4] (T2_protokoll.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-06>
@@ -954,20 +954,20 @@ LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.5pt have occurred.
 
 Package rerunfilecheck Info: File `T2_protokoll.out' has not changed.
-(rerunfilecheck)             Checksum: CC158A23B2104F96F256162DA064407D;1096.
+(rerunfilecheck)             Checksum: 964838CAF4C11BACCF4F96C0DBF0671C;1176.
  ) 
 Here is how much of TeX's memory you used:
- 40882 strings out of 467870
- 949666 string characters out of 5418355
- 1380528 words of memory out of 5000000
- 69153 multiletter control sequences out of 15000+600000
+ 40892 strings out of 467871
+ 949872 string characters out of 5418377
+ 1376529 words of memory out of 5000000
+ 69155 multiletter control sequences out of 15000+600000
  678620 words of font info for 99 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,11n,118p,890b,1123s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,11n,118p,887b,1065s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/STIXGeneral-Bold.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/STIXGeneral-Regular.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/stix-mathex.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/stix-mathit.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/stix-mathrm.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/stix/stix-mathscr.pfb>
-Output written on T2_protokoll.pdf (2 pages, 155870 bytes).
+Output written on T2_protokoll.pdf (4 pages, 159421 bytes).
 PDF statistics:
- 98 PDF objects out of 1000 (max. 8388607)
- 10 named destinations out of 1000 (max. 500000)
- 80 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 115 PDF objects out of 1000 (max. 8388607)
+ 14 named destinations out of 1000 (max. 500000)
+ 96 words of extra memory for PDF output out of 10000 (max. 10000000)
 
