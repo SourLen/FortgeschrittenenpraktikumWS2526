@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def plot_fit_with_pull(x_data, data, yerr, func, fit_params, fit_params_unc=None, fitting_range=(0, 1400), xpm = 50, xlabel="channel", ylabel="counts", include_halfwidth_gaussian=False):
+def plot_fit_with_pull(x_data, data, yerr, func, fit_params, fit_params_unc=None, fitting_range=(0, 1400), xpm = 50, xlabel="channel", ylabel="counts", include_halfwidth_gaussian=False, energy_vline = []):
     '''
     Wichtig: fitting_range und xpm sind in einheiten der x-Achse zu wählen, nicht zwingend als indizes"
     '''
@@ -25,6 +25,9 @@ def plot_fit_with_pull(x_data, data, yerr, func, fit_params, fit_params_unc=None
         ax1.axvline(mu_fit, color="green", linestyle="--", label="Peak Position")
         ax1.axvline(mu_fit - halfwidth, color="orange", linestyle="--", label="Halfwidth")
         ax1.axvline(mu_fit + halfwidth, color="orange", linestyle="--", label="Halfwidth")
+    for energy in energy_vline[:-2]:
+        channel = energy*energy_vline[-2] + energy_vline[-1]  
+        ax1.axvline(channel, color="purple", linestyle="--", label=f"Energy {energy}")
     ax1.legend()
     sel_pull = (x_data >= fitting_range[0]) & (x_data <= fitting_range[1])
     pulls = (data[sel_pull] - func(x_data[sel_pull], *fit_params)) / yerr[sel_pull]
