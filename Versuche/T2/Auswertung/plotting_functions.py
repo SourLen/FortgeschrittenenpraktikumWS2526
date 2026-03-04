@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def plot_fit_with_pull(x_data, data, yerr, func, fit_params, fit_params_unc, fitting_range, xpm = 50, xlabel="channel", ylabel="counts", include_halfwidth_gaussian=False):
+def plot_fit_with_pull(x_data, data, yerr, func, fit_params, fit_params_unc=None, fitting_range=(0, 1400), xpm = 50, xlabel="channel", ylabel="counts", include_halfwidth_gaussian=False):
     '''
     Wichtig: fitting_range und xpm sind in einheiten der x-Achse zu wählen, nicht zwingend als indizes"
     '''
@@ -36,3 +36,4 @@ def plot_fit_with_pull(x_data, data, yerr, func, fit_params, fit_params_unc, fit
     ax2.set_ylabel(r"$\frac{y_i - f(x_i)}{\sigma_i}$")
     plt.tight_layout()
     plt.show()
+    return chi2, ndof, chi2/ndof

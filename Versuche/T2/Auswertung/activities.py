@@ -1,76 +1,72 @@
+from dataclasses import dataclass
+from datetime import datetime
 import numpy as np
-from uncertainties import ufloat
+from uncertainties import ufloat, UFloat
 from uncertainties import umath
 
-def calculate_activity(o_act, o_date, half_life):
-    """
-    Calculate the activity of a radioactive substance at a given date.
 
-    Parameters:
-    o_act (ufloat): The original activity of the substance with uncertainty, in kBq.
-    o_date (str): The original date in the format 'YYYY-MM-DD'.
-    half_life (ufloat): The half-life of the substance with uncertainty, in days.
+@dataclass
+class Source:
+    name: str
+    a_ref: UFloat          # reference activity (kBq)
+    ref_date: str          # 'YYYY-MM-DD'
+    half_life_days: UFloat
 
-    Returns:
-    ufloat: The calculated activity at the current date with uncertainty.
-    """
-    from datetime import datetime
+    def activity_on(self, date=None):
+        """Return activity at a given date (default: today)."""
+        if date is None:
+            date = datetime.now()
 
-    # Convert string dates to datetime objects
-    o_date = datetime.strptime(o_date, '%Y-%m-%d')
-    current_date = datetime.now()
+        ref_date = datetime.strptime(self.ref_date, "%Y-%m-%d")
 
-    # Calculate the time difference in days
-    time_diff = (current_date - o_date).days 
-    time_diff_unc = 12/np.sqrt(12)/24
-    # Calculate the decay constant
-    decay_constant = np.log(2) / half_life
+        dt_days = (date - ref_date).days
+        decay_const = np.log(2) / self.half_life_days
 
-    # Calculate the activity at the current date
-    activity = o_act * umath.exp(-decay_constant * time_diff)
-
-    return activity
+        return self.a_ref * umath.exp(-decay_const * dt_days)
 
 
+# --- Define all sources here ---
 
+SOURCES = {
+    "Cs-137_1": Source(
+        name="Cs-137; 4/1B",
+        a_ref=ufloat(44400, 0),
+        ref_date="1964-04-28",
+        half_life_days=ufloat(11000, 90),
+    ),
 
+    "Cs-137_2": Source(
+        name="Cs-137; OI 797",
+        a_ref=ufloat(24800, 0),
+        ref_date="2008-10-01",
+        half_life_days=ufloat(11000, 90),
+    ),
 
-names = [
-    'Cs-137; 4/1B',
-    'Cs-137; OI 797',
-    'Co-60, LP 213',
-    'Cs-137; MH 851',
-    'Eu-152, MH 850',
-    'Na-22, MH 852'
-]
-original_activities = [
-    ufloat(44400, 0),
-    ufloat(24800, 0),
-    ufloat(37, 0),
-    ufloat(37, 0),
-    ufloat(37, 0),
-    ufloat(37, 0)
-]
-original_dates = [
-    '1964-04-28',
-    '2008-10-01',
-    '2003-04-15',
-    '2004-03-10',
-    '2004-03-10',
-    '2004-03-10'
-    ]
-half_lives = [
-    ufloat(11000, 90),
-    ufloat(11000, 90),
-    ufloat(1925.3, 0.4),
-    ufloat(11000, 90),
-    ufloat(4943, 5),
-    ufloat(950.5, 0.4)
-]
-activities = []
-for o_act, o_date, half_life in zip(original_activities, original_dates, half_lives):
-    activity = calculate_activity(o_act, o_date, half_life)
-    activities.append(activity)
-print("Activity of the substances at the current date:")
-for i, activity in enumerate(activities):
-    print(f"{names[i]}: {activity}")
+    "Co-60": Source(
+        name="Co-60, LP 213",
+        a_ref=ufloat(37, 0),
+        ref_date="2003-04-15",
+        half_life_days=ufloat(1925.3, 0.4),
+    ),
+
+    "Cs-137_3": Source(
+        name="Cs-137; MH 851",
+        a_ref=ufloat(37, 0),
+        ref_date="2004-03-10",
+        half_life_days=ufloat(11000, 90),
+    ),
+
+    "Eu-152": Source(
+        name="Eu-152, MH 850",
+        a_ref=ufloat(37, 0),
+        ref_date="2004-03-10",
+        half_life_days=ufloat(4943, 5),
+    ),
+
+    "Na-22": Source(
+        name="Na-22, MH 852",
+        a_ref=ufloat(37, 0),
+        ref_date="2004-03-10",
+        half_life_days=ufloat(950.5, 0.4),
+    ),
+}
