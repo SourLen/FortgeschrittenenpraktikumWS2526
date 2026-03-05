@@ -4,21 +4,46 @@
 
 \subsection{Compton Streuung}
 
+Für die Compton-Streuung haben wir für alle Versuche eine Probe mit folgenden Eigeschaften verwendet. 
+\begin{center}
+    \begin{tabular}{cc}
+        \texttt{Isotop} & \texttt{Cs-137} \\
+        \texttt{Kennnummer} & \texttt{4/1B} \\
+        \texttt{Anschaffung} & \texttt{28.4.1964}\\
+        \texttt{Aktivität} & \texttt{44400 kBq} \\
+        \texttt{Halbwertszeit} & \texttt{(11000 +- 90) d} \\
+    \end{tabular}
+\end{center}
+
 \subsubsection{Ringgeometrie}
 
-\begin{center}
-    \includegraphics*{skizzen/skizze1.pdf}
-\end{center}
-Über die Ringspektroskopie können wir die Energie der gestreuten Photonen bei einem bestimmten Winkel $\theta$ bestimmen. Dazu nutzen wir den Abgebildeten Aufbau und verstellen $a$, $b$ und $r$ so, dass sich die gewollten Winkel über
+Über die Ringspektroskopie können wir die Energie der gestreuten Photonen bei einem bestimmten Winkel $\theta$ bestimmen. Dazu nutzen wir den Abgebildeten Aufbau und verstellen $a$ und $b$ so, dass sich die gewollten Winkel über
 \begin{equation*}
-    \theta = \arctan\left(\frac{d/2}{a}\right) + \arctan\left(\frac{d/2}{b}\right)
+    \theta = \arctan\left(\frac{D/2}{a}\right) + \arctan\left(\frac{D/2}{b}\right)
 \end{equation*}
 ergibt. Dabei mitteln wir den Strahlengang der Photonen über Streuung in der Mitte des Randes des Rings sowie Detektion in der Mitte des Szintillators.\\
-\\
+\begin{figure}[ht]
+    \begin{center}
+        \includegraphics{skizzen/skizze1.pdf}
+        \caption{Skizze der Ringgeometrie}
+        \label{fig:ringgeometrie}
+    \end{center}
+\end{figure}
+\begin{figure}[ht]
+    \begin{center}
+        \includegraphics[height=4cm]{skizzen/RingGeometrie1.jpeg}
+        \includegraphics[height=4cm]{skizzen/RingGeometrie2.jpeg}
+        \includegraphics[height=4cm]{skizzen/RingGeometrie3.jpeg}
+        \caption{Bilder des Aufbaus}
+        \label{fig:ringgeometrie2}
+    \end{center}
+\end{figure}
+
+\noindent
 Die Streckenmessung für $a$ und $b$ erfolgte über Skalen auf den Schienen sowie einem Geodreieck.\\
 Für $a$: Der Szintillator wird über zwei Stützen gehalten und wir lasen den Ort $a_1$ der Stütze des Kopfes ab. Zusätzlich maßen wir den Abstand $a_2$ zwischen Mitte der Stütze und Anfang des Szintillators. Zudem lasen wir den Ort $a_3$ der Mitte der Stütze des Ringes ab. Damit ergibt sich $a = |a_3 - a_1 - a_2|$.\\
 Für $b$: Der Gammastrahler war in Richtung des Ringes auf eine Halterung aufgesteckt. Diese ragte also um die Strecke $b_1$ aus der Halterung raus und wir maßen diese Strecke. Die Halterung ist auf einer Stütze, dessen Ort $b_2$ wir ablasen konnten sowie maßen wir den Abstand $b_3$ zwischen Mitte der Halterung und Rand. Damit ergibt sich $b = |b_2 - a_3 - b_1 - b_3|$.\\
-Für $d$: Wir maßen den Durchmesser des gesamten Ringes $d_1$ und die Dicke des Randes $d_2$. Für den Durchmesser eines gedachten Ringes durch die Mitte des ausgedehnten Ringes ziehen wir also 2 mal die Hälfte der Dicke des Randes ab. Damit ergibt sich $d = d_1 - d_2$.\\
+Für $D$: Wir maßen den Durchmesser des gesamten Ringes $D_1$ und die Dicke des Randes $D_2$. Für den Durchmesser eines gedachten Ringes durch die Mitte des ausgedehnten Ringes ziehen wir also 2 mal die Hälfte der Dicke des Randes ab. Damit ergibt sich $D = D_1 - D_2$.\\
 Während des Versuches veränderten wir nur die Position des Szintillators $a_1$ und die Position der Halterung des Gammastrahlers $b_2$ um die gewünschten Winkel zu erreichen. Alle anderen Werte wurden konstant gehalten, sodass für jede Messung die folgenden Werte gelten
 \begin{center}
     \begin{tabular}{|c|c|}
@@ -33,11 +58,11 @@ Während des Versuches veränderten wir nur die Position des Szintillators $a_1$
         \hline
         $b_3$ & $\SI{3.9 \pm 0.03}{\centi\meter}$ \\
         \hline
-        $d_1$ & $\SI{25.0 \pm 0.03}{\centi\meter}$ \\
+        $D_1$ & $\SI{25.0 \pm 0.03}{\centi\meter}$ \\
         \hline
-        $d_2$ & $\SI{1.5 \pm 0.03}{\centi\meter}$ \\
+        $D_2$ & $\SI{1.5 \pm 0.03}{\centi\meter}$ \\
         \hline
-        $d$ & $\SI{23.5 \pm 0.04}{\centi\meter}$ \\
+        $D$ & $\SI{23.5 \pm 0.04}{\centi\meter}$ \\
         \hline
     \end{tabular}
 \end{center}
@@ -65,5 +90,72 @@ Es ergeben sich damit die folgenden Werte für $a$, $b$ und $\theta$
     \input{a_b_theta_table.tex}
 \end{center}
 mit den entsprechenden Unsicherheiten durch Fehlerfortpflanzung.\\
+Zusätzlich bestimmen wir die Strecke des Photons vor der Streuung und nach der Streuung. Dabei mitteln wir den Ort der Streuungen zur Mitte des Randes des Ringes und die Detektion zur Mitte des Szintillators.
+\begin{center}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        $x_{\text{Luft}}$ & $x_{\text{Proble}}$ & $x_{\text{Probe}}'$ & $x_{\text{Luft}}'$ \\
+        \hline
+        $b \oplus D/2$ & $D_2/\sqrt{2}$ & $D_2/\sqrt{2}$ & $a \oplus D/2$ \\
+        \hline
+    \end{tabular}
+\end{center}
+Die Unsicherheiten ergeben sich hier durch Fehlerfortpflanzung der Unsicherheiten von $a$, $b$, $D$ und $D_2$. Diese Werte beötigen wir für die spätere Bestimmung der Absorbtion.
 
 \subsubsection{Konventionelle Geometrie}
+
+Für die Konventionelle Geometrie haben wir einen Drehteller mit einer Halterung für einen Streukörper im Zentrum sowie für die Probe am Rand des Drehtellers verwendet. In Richtig des Szintillators ist dabei ein Kollimator zur Bündelung der Stahlung der gewünschten Richtung angebracht. Andere Strahlzentren wurden mit einem zum Winkel passenden Bleikeil abgeschirmt.\\
+
+\begin{figure}[ht]
+    \begin{center}
+        \includegraphics[scale=0.9]{skizzen/skizze2.pdf}
+        \caption{Skizze der konventionellen Geometrie}
+        \label{fig:konventionellegeometrie2}
+    \end{center}
+\end{figure}
+\begin{figure}[ht]
+    \begin{center}
+        \includegraphics[height=5cm]{skizzen/KonventionelleGeometrie1.jpeg}
+        \caption{Bilder des Aufbaus}
+        \label{fig:konventionellegeometrie}
+    \end{center}
+\end{figure}
+
+\noindent
+Die relevanten geometrischen Abmessungen wurden alle mit einem Messschieber (Unsicherheit $0.01/\sqrt{12}\,\unit{\centi\meter}$) gemessen. Für den Radius des Drehtellers $r_{\text{T}}$, dem Abstand der Probe zum Rand des Drehtellers $s_0$, der Strecke bis zu Blende $s_1$, der Dicke des Kollimators $s_2$, der Strecke von der Blende bis zum Szintillator $s_3$ sowie der Durchmesser der Streuzentren $D_{\text{S}}$, des Kollimators $D_{\text{B}}$ und des Szintillators $D_{\text{Z}}$ ergaben sich die folgenden Werte.
+\begin{center}
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Variable} & \textbf{Wert}\\
+        \hline
+        $r_{\text{T}}$ & $\SI{6.700 \pm 0.003}{\centi\meter}$ \\
+        \hline
+        $s_0$ & $\SI{0.780 \pm 0.003}{\centi\meter}$ \\
+        \hline
+        $s_1$ & $\SI{0.675 \pm 0.003}{\centi\meter}$ \\
+        \hline
+        $s_2$ & $\SI{5.075 \pm 0.003}{\centi\meter}$ \\
+        \hline
+        $s_3$ & $\SI{9.35 \pm 0.003}{\centi\meter}$ \\
+        \hline
+        $D_{\text{S}}$ & $\SI{1.100 \pm 0.003}{\centi\meter}$ \\
+        \hline
+        $D_{\text{B}}$ & $\SI{2.445 \pm 0.003}{\centi\meter}$ \\
+        \hline
+        $D_{\text{Z}}$ & $\SI{8.090 \pm 0.003}{\centi\meter}$ \\
+        \hline
+    \end{tabular}
+\end{center}
+Wie bei der Ringeometrie bestimmen wir die Strecke des Photons vor der Streuung und nach der Streuung. Dabei mitteln wir den Ort der Streuungen zur Mitte des Streukörpers.
+\begin{center}
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+        $x_{\text{Luft}}$ & $x_{\text{Proble}}$ & $x_{\text{Probe}}'$ & $x_{\text{Luft}}'$ \\
+        \hline
+        $r_{\text{T}} - s_0$ & $D_{\text{S}}/2$ & $D_{\text{S}}/2$ & $r_{\text{T}} + s_1 + s_2 + s_3$ \\
+        \hline
+    \end{tabular}
+\end{center}
+Auch hier ergeben sich die Unsicherheiten durch Fehlerfortpflanzung der Unsicherheiten von $r_{\text{T}}$, $s_0$, $s_1$, $s_2$, $s_3$ und $D_{\text{S}}$. Diese Werte beötigen wir für die spätere Bestimmung der Absorbtion.\\
+Die Winkel $\theta$ wurden über die Position der Probe auf dem Drehteller eingestellt. Dabei wurde die Position der Probe über die Skala auf dem Drehteller abgelesen. Für die Zielwinkel $\SI{50.0}{\degree}$, $\SI{60.0}{\degree}$, $\SI{80.0}{\degree}$, $\SI{105.0}{\degree}$ und $\SI{135.0}{\degree}$ haben wir somit jeweils eine Unsicherheit von $\pm 5/\sqrt{12}\,\unit{\degree} \approx 1.4 \unit{\degree}$.
+

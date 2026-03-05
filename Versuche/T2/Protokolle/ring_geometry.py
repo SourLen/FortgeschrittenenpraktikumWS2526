@@ -36,8 +36,8 @@ E_diffracted = np.array([ufloat(0.662, 0) / (1 + (0.662/(0.511))*(1-umath.cos(um
 
 ## Data for absorption calculation
 
-x1 = np.array([umath.sqrt(a[i]**2 + d**2) for i in range(len(a1))])
-x2 = np.array([umath.sqrt(b[i]**2 + d**2) for i in range(len(a1))])
+x1 = np.array([umath.sqrt(a[i]**2 + (d/2)**2) for i in range(len(a1))])
+x2 = np.array([umath.sqrt(b[i]**2 + (d/2)**2) for i in range(len(a1))])
 xring = d2*umath.sqrt(1/2)
 
 density_al = 2.330E+00 # g/cm^3 https://physics.nist.gov/PhysRefData/XrayMassCoef/tab1.html
