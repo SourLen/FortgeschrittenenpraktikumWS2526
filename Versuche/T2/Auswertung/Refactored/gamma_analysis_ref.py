@@ -321,6 +321,7 @@ def photopeak_efficiency(
     omega: ufloat,
 ) -> ufloat:
     rate = peak_area_counts / live_time_s
+    print(rate)
     return rate * 4*np.pi / (activity_bq * I_gamma * omega)
 
 
@@ -340,6 +341,8 @@ def main() -> None:
         "Noise_5min": ("Noise.tka", 300.0),
         "Noise_D2_5min": ("5min_noise.tka", 300.0),
         "Na22_D2_10min": ("10min_Na22.tka", 600.0),
+        "Na22_D2_direct": ("yolo_5min.tka", 300.0),
+        "Na22_D2_direct_noise": ("yolo_noise_2min.tka", 120.0),
     }
 
     spectra: dict[str, Spectrum] = {}
@@ -357,10 +360,19 @@ def main() -> None:
     # D2 special
     bg_d2 = spectra["Noise_D2_5min"]
     na_d2 = subtract_background(spectra["Na22_D2_10min"], bg_d2)
-
+    yolo_na_d2 = spectra["Na22_D2_direct"]
+    yolo_bg_d2 = spectra["Na22_D2_direct_noise"]
+    yolo_na_d2_corr = subtract_background(yolo_na_d2, bg_d2)
+    
+    import matplotlib.pyplot as plt
+    plt.errorbar(yolo_na_d2_corr.channel, yolo_na_d2_corr.counts_corr, yerr=yolo_na_d2_corr.sigma, fmt=".", label="Na22 D2 direct (BG subtracted)")
+    plt.xlabel("Channel")
+    plt.ylabel("Counts")
+    plt.title("Na22 D2 direct measurement (BG subtracted)")
+    plt.legend()
+    plt.show()
     # ---- peak definitions ----
     # Each item: (spectrum, label, range_lo, range_hi, literature_energy_keV, I_gamma_fraction, source_key)
-    # NOTE: set correct I_gamma fractions based on your tables (percent/100).
     PEAKS = [
         (cs, "Cs-137, 661.7", (450, 550), 661.66, ufloat(0.8500, 0.0020), "Cs-137; MH 851"),
         (co, "Co-60, 1173",   (835, 905), 1173.23, ufloat(0.9985, 0.0003), "Co-60, LP 213"),
@@ -381,7 +393,7 @@ def main() -> None:
     sigmas = []
 
     for spec, label, fr, E, I, source_name in PEAKS:
-        pf = fit_peak_single(spec, fr, label=label, plot=False, plot_title = f"{label} keV line")
+        pf = fit_peak_single(spec, fr, label=label, plot=True, plot_title = f"{label} keV line")
         peakfits.append(pf)
         energies.append(E)
         mu.append(pf.mu.n)
@@ -410,7 +422,7 @@ def main() -> None:
         L_cm=ufloat(5.0475, 0.01/np.sqrt(12)),
     )
     omega = geom.omega_small_angle()
-
+    print(omega)
     import datetime as dt
     measurement_dt = dt.datetime(2026, 3, 3, 14)
 
@@ -420,6 +432,7 @@ def main() -> None:
     eff_points = []
     for (spec, label, fr, E_lit, I, source_name), pf in zip(PEAKS, peakfits):
         A_bq = activity_by_name[source_name] * 1000 
+        print(f"Peak: {label}, Activity: {A_bq} Bq")
         eps = photopeak_efficiency(
             peak_area_counts=pf.area,
             live_time_s=spec.live_time_s,
@@ -428,7 +441,6 @@ def main() -> None:
             omega=omega,
         )
         eff_points.append((E_lit, eps))
-        print(f"Efficiency {label}: {eps}")
     # Fit linear model to efficiency over energy
     def lin_eff(E, a, b):
         return a*E + b
@@ -472,7 +484,7 @@ def main() -> None:
         plt.ylabel("Noise-subtracted counts")
         plt.title(f"Spectrum: {spec.name}")
         plt.legend()
-        plt.show()
+        #plt.show()
 
 if __name__ == "__main__":
     main()

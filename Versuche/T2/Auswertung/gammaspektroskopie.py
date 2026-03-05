@@ -40,7 +40,7 @@ for axis in ax:
     axis.legend()
 plt.xlabel("channel")
 plt.tight_layout()
-#plt.show()
+plt.show()
 plt.close()
 
 
