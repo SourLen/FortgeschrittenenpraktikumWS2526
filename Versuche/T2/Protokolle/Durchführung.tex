@@ -2,11 +2,76 @@
 
 \subsection{Gammaspektroskopie}
 
+Für die Gammaspektroskopie wurden vier unterschiedliche Proben in einem gleichbleibenden Aufbau nacheinander eingesetzt. Alle Proben wurden dabei in ihren Plastikbehältern gelassen und die Geometrie des Aufbaus wurde nicht verändert. Die Proben hatten folgende Eigeschaften.
+\begin{center}
+    \begin{tabular}{ll}
+        \begin{tabular}{ll}
+            \texttt{Isotop} & \texttt{Co-60} \\
+            \texttt{Kennnummer} & \texttt{LP 213} \\
+            \texttt{Anschaffung} & \texttt{15.04.2003}\\
+            \texttt{Aktivität} & \texttt{37 kBq} \\
+            \texttt{Halbwertszeit} & \texttt{(1925.3 +- 0.4) d} \\
+        \end{tabular}
+        &
+        \begin{tabular}{ll}
+            \texttt{Isotop} & \texttt{Cs-137} \\
+            \texttt{Kennnummer} & \texttt{MH 851} \\
+            \texttt{Anschaffung} & \texttt{10.3.2004}\\
+            \texttt{Aktivität} & \texttt{37 kBq} \\
+            \texttt{Halbwertszeit} & \texttt{(11000 +- 90) d} \\
+        \end{tabular}
+        \\[1cm]
+        \begin{tabular}{ll}
+            \texttt{Isotop} & \texttt{Eu-152} \\
+            \texttt{Kennnummer} & \texttt{MH 850} \\
+            \texttt{Anschaffung} & \texttt{10.3.2004}\\
+            \texttt{Aktivität} & \texttt{37 kBq} \\
+            \texttt{Halbwertszeit} & \texttt{(4943 +- 5) d} \\
+        \end{tabular}
+        &
+        \begin{tabular}{ll}
+            \texttt{Isotop} & \texttt{Na-22} \\
+            \texttt{Kennnummer} & \texttt{MH 852} \\
+            \texttt{Anschaffung} & \texttt{10.3.2004}\\
+            \texttt{Aktivität} & \texttt{37 kBq} \\
+            \texttt{Halbwertszeit} & \texttt{(950.5 +- 0.4) d} \\
+        \end{tabular}
+        \\
+    \end{tabular}
+\end{center}
+
+\noindent
+Der Aufbau bestand aus einem Metallblock, auf deren Rand die Proben gestellt wurden, sowie einer kreisförmigen Blende aus Blei und einem kreisförmigen Szintillator dahinter. Abgeschirmt wurde der Aufbau durch mehrere Blöcke aus Blei.
+\begin{figure}[ht]
+    \begin{center}
+        \includegraphics[scale=0.9]{skizzen/skizze3.pdf}
+        \caption{Skizze des Aufbaus für die Gammaspektroskopie}
+        \label{fig:gammaspektroskopie}
+    \end{center}
+\end{figure}
+
+\noindent
+Der Abstände $x_1$ und $x_3$ wurden mit einem Geodreieck (Unsicherheit $\pm 0.1/\sqrt{12}\,\unit{\centi\meter}$) und der Abstand $x_2$ mit einem Messschieber (Unsicherheit $\pm 0.01/\sqrt{12}\,\unit{\centi\meter}\approx 0.0029\,\unit{\centi\meter}$) gemessen und für alle Proben gleich gehalten. \\
+Für die spätere Auswertung sind nur die Werte für den Abstand der Probe zum Ende der Blende $x_1 + x_2$ relevant, da die Blende mit dem Durchmesser $D_{\text{B}}$, wie in der Skizze zu erkennen (und auch nachgerechnet werden kann\footnote{Es gilt $\arctan{\left(\frac{D_{\text{B}}}{x_1+x_2}\right)}\leq \arctan{\left(\frac{D_{\text{B}}-D_{\text{S}}}{x_3}\right)}$}), den Raumwinkel größer beschränkt als der Szintillator mit dem Durchmesser $D_{\text{S}}$. Es ergeben sich damit die folgenden Werte für $x_1$, $x_2$, $x_1+x_2$ und $D_{\text{B}}$.
+\begin{center}
+    \begin{tabular}{|c|c|}
+        \hline
+        $x_1$ & $\SI{12.1 \pm 0.03}{\centi\meter}$ \\
+        \hline
+        $x_2$ & $\SI{5.055 \pm 0.003}{\centi\meter}$ \\
+        \hline
+        $x_1 + x_2$ & $\SI{17.2 \pm 0.1}{\centi\meter}$ \\
+        \hline
+        $D_{\text{B}}$ & $\SI{2.475 \pm 0.003}{\centi\meter}$ \\
+        \hline
+    \end{tabular}
+\end{center}
+
 \subsection{Compton Streuung}
 
 Für die Compton-Streuung haben wir für alle Versuche eine Probe mit folgenden Eigeschaften verwendet. 
 \begin{center}
-    \begin{tabular}{cc}
+    \begin{tabular}{ll}
         \texttt{Isotop} & \texttt{Cs-137} \\
         \texttt{Kennnummer} & \texttt{4/1B} \\
         \texttt{Anschaffung} & \texttt{28.4.1964}\\
@@ -84,7 +149,7 @@ Für die Unterschiedlichen Winkel $\theta$ stellten wir die folgenen Werte für 
         \hline
     \end{tabular}
 \end{center}
-mit den Unsicherheiten von $\SI{0.3}{\centi\meter}$ für die Ablesungen auf der Schiene von $a_1$ und $b_2$ sowie $0.1/\sqrt{12}\,\unit{\centi\meter}\approx\SI{0.03}{\centi\meter}$ für die Messungen von $a_2$, $a_3$, $b_1$, $b_3$, $d_1$ und $d_2$ mit dem Geodreieck. Die Unsicherheiten für die Ablesungen auf der Schiene ergeben sich aus der normalen Ableseungenauigkeit einer Skala und der zusätzlichen Schwankung der Stützen. Da wir nur die Werte unten auf der Skala ablesen können, müssen wir in dem Fehler die Möglichkeit einer schrägen Position der Stütze berücksichtigen und damit eine standardverteilte Verschiebung des Ortes der Komponenten.\\
+mit den Unsicherheiten von $\pm \SI{0.3}{\centi\meter}$ für die Ablesungen auf der Schiene von $a_1$ und $b_2$ sowie $\pm 0.1/\sqrt{12}\,\unit{\centi\meter}\approx \pm \SI{0.03}{\centi\meter}$ für die Messungen von $a_2$, $a_3$, $b_1$, $b_3$, $d_1$ und $d_2$ mit dem Geodreieck. Die Unsicherheiten für die Ablesungen auf der Schiene ergeben sich aus der normalen Ableseungenauigkeit einer Skala und der zusätzlichen Schwankung der Stützen. Da wir nur die Werte unten auf der Skala ablesen können, müssen wir in dem Fehler die Möglichkeit einer schrägen Position der Stütze berücksichtigen und damit eine standardverteilte Verschiebung des Ortes der Komponenten.\\
 Es ergeben sich damit die folgenden Werte für $a$, $b$ und $\theta$
 \begin{center}
     \input{a_b_theta_table.tex}
@@ -122,7 +187,7 @@ Für die Konventionelle Geometrie haben wir einen Drehteller mit einer Halterung
 \end{figure}
 
 \noindent
-Die relevanten geometrischen Abmessungen wurden alle mit einem Messschieber (Unsicherheit $0.01/\sqrt{12}\,\unit{\centi\meter}$) gemessen. Für den Radius des Drehtellers $r_{\text{T}}$, dem Abstand der Probe zum Rand des Drehtellers $s_0$, der Strecke bis zu Blende $s_1$, der Dicke des Kollimators $s_2$, der Strecke von der Blende bis zum Szintillator $s_3$ sowie der Durchmesser der Streuzentren $D_{\text{S}}$, des Kollimators $D_{\text{B}}$ und des Szintillators $D_{\text{Z}}$ ergaben sich die folgenden Werte.
+Die relevanten geometrischen Abmessungen wurden alle mit einem Messschieber (Unsicherheit $\pm 0.01/\sqrt{12}\,\unit{\centi\meter}$) gemessen. Für den Radius des Drehtellers $r_{\text{T}}$, dem Abstand der Probe zum Rand des Drehtellers $s_0$, der Strecke bis zu Blende $s_1$, der Dicke des Kollimators $s_2$, der Strecke von der Blende bis zum Szintillator $s_3$ sowie der Durchmesser der Streuzentren $D_{\text{S}}$, des Kollimators $D_{\text{K}}$ und des Szintillators $D_{\text{Z}}$ ergaben sich die folgenden Werte.
 \begin{center}
     \begin{tabular}{|c|c|}
         \hline
@@ -140,7 +205,7 @@ Die relevanten geometrischen Abmessungen wurden alle mit einem Messschieber (Uns
         \hline
         $D_{\text{S}}$ & $\SI{1.100 \pm 0.003}{\centi\meter}$ \\
         \hline
-        $D_{\text{B}}$ & $\SI{2.445 \pm 0.003}{\centi\meter}$ \\
+        $D_{\text{K}}$ & $\SI{2.445 \pm 0.003}{\centi\meter}$ \\
         \hline
         $D_{\text{Z}}$ & $\SI{8.090 \pm 0.003}{\centi\meter}$ \\
         \hline
@@ -150,7 +215,7 @@ Wie bei der Ringeometrie bestimmen wir die Strecke des Photons vor der Streuung 
 \begin{center}
     \begin{tabular}{|c|c|c|c|}
         \hline
-        $x_{\text{Luft}}$ & $x_{\text{Proble}}$ & $x_{\text{Probe}}'$ & $x_{\text{Luft}}'$ \\
+        $x_{\text{Luft}}$ & $x_{\text{Probe}}$ & $x_{\text{Probe'}}$ & $x_{\text{Luft'}}$ \\
         \hline
         $r_{\text{T}} - s_0$ & $D_{\text{S}}/2$ & $D_{\text{S}}/2$ & $r_{\text{T}} + s_1 + s_2 + s_3$ \\
         \hline

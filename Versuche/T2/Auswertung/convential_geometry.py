@@ -11,7 +11,7 @@ s1 = ufloat(0.675, 0.01/np.sqrt(12))
 s2 = ufloat(5.075, 0.01/np.sqrt(12))
 s3 = ufloat(9.350, 0.01/np.sqrt(12))
 Ds = ufloat(1.1, 0.01/np.sqrt(12))
-Db = ufloat(2.445, 0.01/np.sqrt(12))
+Dk = ufloat(2.445, 0.01/np.sqrt(12))
 Dz = ufloat(2.445, 0.01/np.sqrt(12))
 
 # distances

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2026.2.21)  5 MAR 2026 18:00
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (MiKTeX 25.4) (preloaded format=pdflatex 2026.2.21)  6 MAR 2026 12:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -792,80 +792,90 @@ Package translations Info: loading dictionary `translations-basic-dictionary' fo
  (Einführung.tex) [1
 
 {C:/Users/blanc/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rmsc.enc}{C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rm.enc}] (Durchführung.tex
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 9.
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 7.
  (C:\Users\blanc\AppData\Local\Programs\MiKTeX\tex/latex/lm\omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 9.
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 7.
  (C:\Users\blanc\AppData\Local\Programs\MiKTeX\tex/latex/lm\omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 9.
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 7.
  (C:\Users\blanc\AppData\Local\Programs\MiKTeX\tex/latex/lm\omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 9.
+(Font)              <10> on input line 7.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 9.
+(Font)              <7> on input line 7.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 9.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 9.
+(Font)              <5> on input line 7.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 7.
  (C:\Users\blanc\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 9.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 7.
  (C:\Users\blanc\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for U+lasy on input line 9.
+LaTeX Font Info:    Trying to load font information for U+lasy on input line 7.
  (C:\Users\blanc\AppData\Local\Programs\MiKTeX\tex/latex/base\ulasy.fd
 File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 )
-LaTeX Font Info:    Trying to load font information for U+rsfs on input line 9.
+LaTeX Font Info:    Trying to load font information for U+rsfs on input line 7.
  (C:\Users\blanc\AppData\Local\Programs\MiKTeX\tex/latex/jknappen\ursfs.fd
 File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
 )
-LaTeX Font Info:    Trying to load font information for OT1+lmtt on input line 10.
+LaTeX Font Info:    Trying to load font information for OT1+lmtt on input line 9.
  (C:\Users\blanc\AppData\Local\Programs\MiKTeX\tex/latex/lm\ot1lmtt.fd
 File: ot1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-<skizzen/skizze1.pdf, id=51, 293.16025pt x 90.0685pt>
+<skizzen/skizze3.pdf, id=51, 497.0881pt x 138.61687pt>
+File: skizzen/skizze3.pdf Graphic file (type pdf)
+<use skizzen/skizze3.pdf>
+Package pdftex.def Info: skizzen/skizze3.pdf  used on input line 47.
+(pdftex.def)             Requested size: 447.37515pt x 124.75401pt.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <8> on input line 55.
+LaTeX Font Info:    External font `lmex10' loaded for size
+(Font)              <6> on input line 55.
+ [2{C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rmtt.enc}{C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc}{C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc} <./skizzen/skizze3.pdf>]
+<skizzen/skizze1.pdf, id=89, 293.16025pt x 90.0685pt>
 File: skizzen/skizze1.pdf Graphic file (type pdf)
 <use skizzen/skizze1.pdf>
-Package pdftex.def Info: skizzen/skizze1.pdf  used on input line 27.
+Package pdftex.def Info: skizzen/skizze1.pdf  used on input line 92.
 (pdftex.def)             Requested size: 293.15952pt x 90.06827pt.
-<skizzen/RingGeometrie1.jpeg, id=52, 5139.2pt x 3854.4pt>
+<skizzen/RingGeometrie1.jpeg, id=90, 5139.2pt x 3854.4pt>
 File: skizzen/RingGeometrie1.jpeg Graphic file (type jpg)
 <use skizzen/RingGeometrie1.jpeg>
-Package pdftex.def Info: skizzen/RingGeometrie1.jpeg  used on input line 34.
+Package pdftex.def Info: skizzen/RingGeometrie1.jpeg  used on input line 99.
 (pdftex.def)             Requested size: 151.73839pt x 113.81102pt.
-<skizzen/RingGeometrie2.jpeg, id=53, 5139.2pt x 3854.4pt>
+<skizzen/RingGeometrie2.jpeg, id=91, 5139.2pt x 3854.4pt>
 File: skizzen/RingGeometrie2.jpeg Graphic file (type jpg)
 <use skizzen/RingGeometrie2.jpeg>
-Package pdftex.def Info: skizzen/RingGeometrie2.jpeg  used on input line 35.
+Package pdftex.def Info: skizzen/RingGeometrie2.jpeg  used on input line 100.
 (pdftex.def)             Requested size: 151.73839pt x 113.81102pt.
-<skizzen/RingGeometrie3.jpeg, id=54, 3854.4pt x 5139.2pt>
+<skizzen/RingGeometrie3.jpeg, id=92, 3854.4pt x 5139.2pt>
 File: skizzen/RingGeometrie3.jpeg Graphic file (type jpg)
 <use skizzen/RingGeometrie3.jpeg>
-Package pdftex.def Info: skizzen/RingGeometrie3.jpeg  used on input line 36.
+Package pdftex.def Info: skizzen/RingGeometrie3.jpeg  used on input line 101.
 (pdftex.def)             Requested size: 85.33813pt x 113.81102pt.
- [2{C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-rmtt.enc}{C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathit.enc}{C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathex.enc}{C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/lm/lm-mathsy.enc} <./skizzen/skizze1.pdf> <./skizzen/RingGeometrie1.jpeg> <./skizzen/RingGeometrie2.jpeg> <./skizzen/RingGeometrie3.jpeg>] (a_b_theta_table.tex)
-Underfull \hbox (badness 10000) in paragraph at lines 107--108
+ [3 <./skizzen/skizze1.pdf> <./skizzen/RingGeometrie1.jpeg> <./skizzen/RingGeometrie2.jpeg> <./skizzen/RingGeometrie3.jpeg>] (a_b_theta_table.tex)
+Underfull \hbox (badness 10000) in paragraph at lines 172--173
 
  []
 
-<skizzen/skizze2.pdf, id=80, 516.56384pt x 133.4044pt>
+<skizzen/skizze2.pdf, id=109, 516.56384pt x 133.4044pt>
 File: skizzen/skizze2.pdf Graphic file (type pdf)
 <use skizzen/skizze2.pdf>
-Package pdftex.def Info: skizzen/skizze2.pdf  used on input line 111.
+Package pdftex.def Info: skizzen/skizze2.pdf  used on input line 176.
 (pdftex.def)             Requested size: 464.90315pt x 120.06282pt.
-<skizzen/KonventionelleGeometrie1.jpeg, id=81, 1421.31pt x 2055.68pt>
+<skizzen/KonventionelleGeometrie1.jpeg, id=110, 1421.31pt x 2055.68pt>
 File: skizzen/KonventionelleGeometrie1.jpeg Graphic file (type jpg)
 <use skizzen/KonventionelleGeometrie1.jpeg>
-Package pdftex.def Info: skizzen/KonventionelleGeometrie1.jpeg  used on input line 118.
+Package pdftex.def Info: skizzen/KonventionelleGeometrie1.jpeg  used on input line 183.
 (pdftex.def)             Requested size: 98.35243pt x 142.26378pt.
-[3]) [4 <./skizzen/skizze2.pdf> <./skizzen/KonventionelleGeometrie1.jpeg>] (Analyse.tex) [5] (T2_protokoll.aux)
+[4]) [5 <./skizzen/skizze2.pdf> <./skizzen/KonventionelleGeometrie1.jpeg>] (Analyse.tex) [6] (T2_protokoll.aux)
  ***********
 LaTeX2e <2025-11-01>
 L3 programming layer <2025-11-06>
@@ -874,17 +884,17 @@ Package rerunfilecheck Info: File `T2_protokoll.out' has not changed.
 (rerunfilecheck)             Checksum: 964838CAF4C11BACCF4F96C0DBF0671C;1176.
  ) 
 Here is how much of TeX's memory you used:
- 38497 strings out of 467870
- 922616 string characters out of 5418355
- 1381003 words of memory out of 5000000
- 66766 multiletter control sequences out of 15000+600000
- 661635 words of font info for 71 fonts, out of 8000000 for 9000
+ 38532 strings out of 467870
+ 923137 string characters out of 5418355
+ 1380003 words of memory out of 5000000
+ 66791 multiletter control sequences out of 15000+600000
+ 670089 words of font info for 84 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,11n,118p,887b,1124s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr9.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy7.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb>
-Output written on T2_protokoll.pdf (5 pages, 10132274 bytes).
+ 99i,13n,118p,900b,1124s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmbx12.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmcsc10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmex10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmmi6.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr5.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr6.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr7.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr8.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmr9.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy10.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy6.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy7.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmsy8.pfb><C:/Users/blanc/AppData/Local/Programs/MiKTeX/fonts/type1/public/lm/lmtt10.pfb>
+Output written on T2_protokoll.pdf (6 pages, 10227001 bytes).
 PDF statistics:
- 168 PDF objects out of 1000 (max. 8388607)
- 19 named destinations out of 1000 (max. 500000)
- 115 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 222 PDF objects out of 1000 (max. 8388607)
+ 22 named destinations out of 1000 (max. 500000)
+ 120 words of extra memory for PDF output out of 10000 (max. 10000000)
 
