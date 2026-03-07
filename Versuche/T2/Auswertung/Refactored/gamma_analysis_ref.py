@@ -2,9 +2,10 @@
 from __future__ import annotations
 
 import numpy as np
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Callable, Sequence, Optional
+import json
 
 from scipy.optimize import curve_fit
 from uncertainties import ufloat
@@ -12,48 +13,7 @@ from uncertainties import umath
 
 from activities_ref import SOURCES  # your refactored sources module
 from plotting_functions_ref import plot_data_fit_and_pulls
-
-# -------------------------
-# I/O + preprocessing
-# -------------------------
-
-def load_tka(path: Path, skip_header_lines: int = 2) -> np.ndarray:
-    """Loads a .tka-like file that contains one count per channel; skips header lines."""
-    arr = np.loadtxt(path)
-    return np.asarray(arr[skip_header_lines:], dtype=float)
-
-@dataclass(frozen=True)
-class Spectrum:
-    name: str
-    counts: np.ndarray          # raw counts per channel
-    live_time_s: float          # measurement time of this spectrum
-    channel: np.ndarray         # channel axis (0..N-1)
-
-@dataclass(frozen=True)
-class BackgroundSubtracted:
-    name: str
-    counts_corr: np.ndarray     # N_i - alpha B_i
-    sigma: np.ndarray           # sqrt(N_i + alpha^2 B_i)
-    alpha: float                # T_s / T_b
-    channel: np.ndarray
-    live_time_s: float
-
-def subtract_background(
-    signal: Spectrum,
-    background: Spectrum,
-) -> BackgroundSubtracted:
-    alpha = signal.live_time_s / background.live_time_s
-    counts_corr = signal.counts - alpha * background.counts
-    sigma = np.sqrt(np.maximum(signal.counts, 0.0) + (alpha**2) * np.maximum(background.counts, 0.0))
-    sigma = np.where(sigma == 0, 1.0, sigma)  # avoid zeros
-    return BackgroundSubtracted(
-        name=signal.name,
-        counts_corr=counts_corr,
-        sigma=sigma,
-        alpha=alpha,
-        channel=signal.channel,
-        live_time_s=signal.live_time_s,
-    )
+from general_analysis_classes import load_tka_counts, Spectrum, CorrectedSpectrum, subtract_background
 
 # -------------------------
 # Peak models + fitting
@@ -85,7 +45,8 @@ class PeakFit:
     fit_range: tuple[int, int]
 
 def fit_peak_single(
-    spec: BackgroundSubtracted,
+    ### Fit a single Gaussian + linear background to the specified range of the spectrum.
+    spec: CorrectedSpectrum,
     fit_range: tuple[int, int],
     label: str,
     plot: bool = False,
@@ -93,10 +54,11 @@ def fit_peak_single(
     context_pad: int = 40,
     bounds: Optional[tuple[Sequence[float], Sequence[float]]] = None,
 ) -> PeakFit:
+    
     lo, hi = fit_range
     x = spec.channel
     y = spec.counts_corr
-    s = spec.sigma
+    s = spec.sigma_corr
 
     fit_mask = (x >= lo) & (x <= hi)
 
@@ -171,7 +133,7 @@ def fit_peak_single(
     return fit
 
 def fit_peak_doublet(
-    spec: BackgroundSubtracted,
+    spec: CorrectedSpectrum,
     fit_range: tuple[int, int],
     label: str,
     mu_guesses: tuple[float, float],
@@ -269,12 +231,20 @@ class EnergyCalibration:
     # channel = m*E + b
     m: ufloat
     b: ufloat
-
+    cov: np.ndarray 
     def channel_of(self, E_keV: float) -> ufloat:
         return self.m * E_keV + self.b
 
     def energy_of(self, ch: ufloat) -> ufloat:
-        return (ch - self.b) / self.m
+        ### Include correlation between m, b
+        E = (ch.n - self.b.n) / self.m.n
+        # Error propagation with covariance, no correlation b etween ch and m/b since ch is from a different measurement
+        dE_dm = -(ch.n - self.b.n) / (self.m.n ** 2)
+        dE_db = -1 / self.m.n
+        dE_dch = 1 / self.m.n
+        var_E = (dE_dm ** 2) * self.cov[0, 0] + (dE_db ** 2) * self.cov[1, 1] + 2 * dE_dm * dE_db * self.cov[0, 1] + (dE_dch ** 2) * ch.s ** 2
+        
+        return ufloat(E, np.sqrt(var_E))
 
     def dEdCh(self) -> ufloat:
         # for linear calibration, derivative is constant
@@ -288,9 +258,10 @@ def fit_linear_calibration(energies_keV: np.ndarray, mus_channel: np.ndarray, mu
     perr = np.sqrt(np.diag(pcov))
     m = ufloat(popt[0], perr[0])
     b = ufloat(popt[1], perr[1])
-    return EnergyCalibration(m=m, b=b)
+    return EnergyCalibration(m=m, b=b, cov=pcov)
 
 def fwhm_from_sigma_channel(sigma_ch: ufloat) -> ufloat:
+    ### FWHM = 2*sqrt(2*ln(2)) * sigma for Gaussian
     return ufloat(2.354820045, 0.0) * sigma_ch
 
 def fwhm_energy_from_sigma_channel(cal: EnergyCalibration, sigma_ch: ufloat) -> ufloat:
@@ -321,7 +292,6 @@ def photopeak_efficiency(
     omega: ufloat,
 ) -> ufloat:
     rate = peak_area_counts / live_time_s
-    print(rate)
     return rate * 4*np.pi / (activity_bq * I_gamma * omega)
 
 
@@ -331,6 +301,7 @@ def photopeak_efficiency(
 
 def main() -> None:
     # ---- configure paths ----
+    import matplotlib.pyplot as plt
     base = Path("../Messdaten/Gammaspektroskopie")  # <-- change if needed
 
     files = {
@@ -347,8 +318,8 @@ def main() -> None:
 
     spectra: dict[str, Spectrum] = {}
     for key, (fname, t) in files.items():
-        counts = load_tka(base / fname)
-        spectra[key] = Spectrum(name=key, counts=counts, live_time_s=t, channel=np.arange(len(counts)))
+        counts = load_tka_counts(base / fname)
+        spectra[key] = Spectrum(name=key, counts=counts, live_time_s=t)
 
     # ---- background subtraction ----
     bg = spectra["Noise_5min"]
@@ -364,13 +335,17 @@ def main() -> None:
     yolo_bg_d2 = spectra["Na22_D2_direct_noise"]
     yolo_na_d2_corr = subtract_background(yolo_na_d2, bg_d2)
     
-    import matplotlib.pyplot as plt
+    '''
+    Additional plot of direct Na22 measurement, showing photopeak but havent yet looked at escape peak- useful for 4.1.5
+        
     plt.errorbar(yolo_na_d2_corr.channel, yolo_na_d2_corr.counts_corr, yerr=yolo_na_d2_corr.sigma, fmt=".", label="Na22 D2 direct (BG subtracted)")
     plt.xlabel("Channel")
     plt.ylabel("Counts")
     plt.title("Na22 D2 direct measurement (BG subtracted)")
     plt.legend()
     plt.show()
+    '''
+
     # ---- peak definitions ----
     # Each item: (spectrum, label, range_lo, range_hi, literature_energy_keV, I_gamma_fraction, source_key)
     PEAKS = [
@@ -381,7 +356,6 @@ def main() -> None:
         (eu, "Eu-152, 244.7", (170, 215), 244.70, ufloat(0.07580, 0.00030), "Eu-152, MH 850"),
         (eu, "Eu-152, 344.3", (240, 290), 344.28, ufloat(0.265, 0.006), "Eu-152, MH 850"),
         (eu, "Eu-152, 778.9", (545, 620), 778.90, ufloat(0.1294, 0.0015), "Eu-152, MH 850"),
-        # The problematic region (often a multiplet). Prefer doublet fit or exclude.
         # (eu, "Eu-152 ~1086/1112", (770, 845), 1085.90, ufloat(0.1021, 0.0004), "Eu-152, MH 850"),
     ]
 
@@ -393,7 +367,7 @@ def main() -> None:
     sigmas = []
 
     for spec, label, fr, E, I, source_name in PEAKS:
-        pf = fit_peak_single(spec, fr, label=label, plot=True, plot_title = f"{label} keV line")
+        pf = fit_peak_single(spec, fr, label=label, plot=False, plot_title = f"{label} keV line")
         peakfits.append(pf)
         energies.append(E)
         mu.append(pf.mu.n)
@@ -406,15 +380,50 @@ def main() -> None:
 
     # ---- calibration ----
     cal = fit_linear_calibration(energies, mu, mu_unc)
-    print(f"Calibration: channel = ({cal.m})*E + ({cal.b})")
+    ### Save calibration result to JSON for later use
+    cal_dict = {
+        "m": {"value": cal.m.n, "uncertainty": cal.m.s},
+        "b": {"value": cal.b.n, "uncertainty": cal.b.s},
+        "cov": cal.cov.tolist(),
+    }
+    with open("./Refactored/energy_calibration.json", "w") as f:
+        json.dump(cal_dict, f, indent=4)
+
 
     # ---- resolution ----
+    E_fitted = []
+    res_points = []
     # Print resolution points
     for pf, E in zip(peakfits, energies):
-        E_fit = cal.energy_of(pf.mu)
-        dE = fwhm_energy_from_sigma_channel(cal, pf.sigma)
-        print(f"{pf.label}: E={E_fit} keV, FWHM={dE} keV, res={dE/E_fit}")
-
+        ### R = deltaE/E = 2*sqrt(2*ln(2))* sigma_channel / (mu_channel - b)
+        ### Ignoriere Korrelationen zwischen Peakfit und Kalibrierigung
+        
+        k = 2*np.sqrt(2*np.log(2))
+        first_sum = (k**2 * pf.sigma.n**2)/(pf.mu.n - cal.b.n)**4 *(cal.b.s ** 2 + pf.mu.s**2)
+        sec_sum = k**2 * pf.sigma.s**2 / (pf.mu.n - cal.b.n)**2
+        third_sum = -2*k**2*pf.mu.n*cal.cov[0,1]/(pf.mu.n - cal.b.n)**3
+        u_R = np.sqrt(first_sum + sec_sum + third_sum)
+        R = k*pf.sigma.n / (pf.mu.n - cal.b.n)
+        print(f"{pf.label}: R = {R:.4f} ± {u_R:.4f}")
+        res_points.append(ufloat(R, u_R))
+        E_fitted.append(cal.energy_of(pf.mu))
+        
+    def energy_resolution_model(E, a, b):
+        return np.sqrt(a**2 + (b**2 / E))
+    res_values = np.array([r.n for r in res_points])
+    E_fitted_values = np.array([E.n for E in E_fitted])
+    popt_res, pcov_res = curve_fit(energy_resolution_model, E_fitted_values, res_values, sigma=np.array([r.s for r in res_points]), absolute_sigma=True)
+    plot_data_fit_and_pulls(
+        x=E_fitted_values,
+        y=res_values,
+        yerr=np.array([r.s for r in res_points]),
+        model=lambda E, pp: energy_resolution_model(E, pp[0], pp[1]),
+        popt=popt_res,
+        fit_mask=np.ones_like(E_fitted_values, dtype=bool),
+        title="Energy Resolution vs Energy",
+        xlabel="Energy (keV)",
+        ylabel="Energy Resolution R",
+    )
     # ---- efficiency geometry ----
     geom = CollimatorGeometry(
         radius_cm=ufloat(1.2375, 0.005/np.sqrt(12)),  # keep your current estimate
@@ -422,7 +431,6 @@ def main() -> None:
         L_cm=ufloat(5.0475, 0.01/np.sqrt(12)),
     )
     omega = geom.omega_small_angle()
-    print(omega)
     import datetime as dt
     measurement_dt = dt.datetime(2026, 3, 3, 14)
 
@@ -432,7 +440,6 @@ def main() -> None:
     eff_points = []
     for (spec, label, fr, E_lit, I, source_name), pf in zip(PEAKS, peakfits):
         A_bq = activity_by_name[source_name] * 1000 
-        print(f"Peak: {label}, Activity: {A_bq} Bq")
         eps = photopeak_efficiency(
             peak_area_counts=pf.area,
             live_time_s=spec.live_time_s,
@@ -442,6 +449,7 @@ def main() -> None:
         )
         eff_points.append((E_lit, eps))
     # Fit linear model to efficiency over energy
+            
     def lin_eff(E, a, b):
         return a*E + b
     E_fit = np.linspace(min(energies)*0.9, max(energies)*1.1, 100)
@@ -463,28 +471,5 @@ def main() -> None:
     plt.ylabel(r"Efficiency $\varepsilon$") 
     plt.legend()
     plt.show()
-    
-    ### Plot all spectra with peak positions and theoretical energies marked, 
-    # using the calibration to convert channel to energy on the x-axis.
-    ### Make all spectra plots into a single figure with 4 subplots (one for each source), and mark the fitted peak positions and their corresponding energies on each plot.
-    # Also exclude exceptional noise in the beginning
-    fig, ax = plt.subplots(2, 2, figsize=(15, 10))
-    axes = ax.flatten()
-    
-    for spec in [cs, co, eu, na]:
-        axes[0].errorbar(spec.channel, spec.counts_corr, yerr=spec.sigma, fmt=".", label=spec.name)
-        # Mark fitted peaks
-        for pf in peakfits:
-            if pf.label.startswith(spec.name.split(",")[0][:2]):
-                
-                E_fit = cal.energy_of(pf.mu)
-                plt.axvline(pf.mu.n, color="red", linestyle="--", label=f"{pf.label} keV expected")
-                plt.text(pf.mu.n+10, max(spec.counts_corr)*1.2, f"{E_fit:.1f} keV", rotation=0, verticalalignment='center', color="red")
-        plt.xlabel("Channel")
-        plt.ylabel("Noise-subtracted counts")
-        plt.title(f"Spectrum: {spec.name}")
-        plt.legend()
-        #plt.show()
-
 if __name__ == "__main__":
     main()

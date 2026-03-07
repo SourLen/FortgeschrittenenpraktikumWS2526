@@ -78,3 +78,28 @@ def plot_data_fit_and_pulls(
         plt.close(fig)
 
     return PullPlotResult(chi2=chi2, ndof=ndof, chi2_red=chi2_red)
+
+
+# -------------------------
+# Plotting
+# -------------------------
+
+def plot_spectrum_and_noise(spectrum: Spectrum, noise: Spectrum) -> None:
+    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, figsize=(10, 7), sharex=True)
+    ax1.errorbar(spectrum.channel, spectrum.counts, yerr=np.sqrt(spectrum.counts), fmt=".", label=spectrum.name)
+    ax1.set_title(f"Spectrum: {spectrum.name}")
+    ax1.set_ylabel("Counts")
+    ax1.legend()
+    ax2.errorbar(noise.channel, noise.counts, yerr=np.sqrt(noise.counts), fmt=".", label=noise.name, color="orange")
+    ax2.set_title(f"Noise: {noise.name}")
+    ax2.set_ylabel("Counts")
+    ax2.legend()
+    # Subtracted spectrum
+    corr_spec = subtract_background(spectrum, noise)
+    ax3.errorbar(corr_spec.channel, corr_spec.counts_corr, yerr=corr_spec.sigma_corr, fmt=".", label=corr_spec.name, color="green")
+    ax3.set_title(f"Background-subtracted Spectrum: {corr_spec.name}")
+    ax3.set_xlabel("Channel")
+    ax3.set_ylabel("Counts (bg-subtracted)")
+    ax3.legend()
+    plt.tight_layout()
+    plt.show()

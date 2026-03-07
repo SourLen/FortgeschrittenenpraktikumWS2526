@@ -111,13 +111,21 @@ for i in range(len(channels)):
 ### Plotting (delta E/ E)^2 vs 1/E
 delta_E_over_E_squared = [(u_delta_energies[i] / u_energies_peak_fit[i])**2 for i in range(len(u_delta_energies))]
 inverse_energies = [1/u_energies_peak_fit[i] for i in range(len(u_energies_peak_fit))]
-
+### Linear fit
+def linear_res(x, a, b):
+    return a + b * x
+popt_res, pcov_res = curve_fit(linear_res, [inv.n for inv in inverse_energies], [res.n for res in delta_E_over_E_squared], sigma=[res.s for res in delta_E_over_E_squared], absolute_sigma=True)
+chi2 = np.sum([((delta_E_over_E_squared[i].n - linear_res(inverse_energies[i].n, *popt_res)) / delta_E_over_E_squared[i].s)**2 for i in range(len(delta_E_over_E_squared))])
+ndof = len(delta_E_over_E_squared) - len(popt_res)
+chi2_red = chi2 / ndof if ndof > 0 else float("nan")
+print(chi2_red)
+plt.plot([inv.n for inv in inverse_energies], [linear_res(inv.n, *popt_res) for inv in inverse_energies], label=f"Fit: (ΔE/E)^2 = {popt_res[0]:.2e} + {popt_res[1]:.2e}/E\nChi2/ndof = {chi2_red:.2f}")
 plt.errorbar([i.n for i in inverse_energies], [i.n for i in delta_E_over_E_squared], yerr=[i.s for i in delta_E_over_E_squared], fmt="o")
 plt.xlabel("1/E (keV⁻¹)")
 plt.ylabel("(ΔE/E)²")
 plt.title("Energy Resolution")
-#plt.show()
-plt.close()
+plt.show()
+
 
 #### Alternative: Direct fit onto Delta E/E vs E, with f(E) = sqrt(a^2+b^2/E)
 def fit_func(E, a, b):
@@ -132,8 +140,9 @@ popt, pcov = curve_fit(fit_func, x_data, [y.n for y in y_data], sigma=[y.s for y
 a_fit, b_fit = popt
 perr = np.sqrt(np.diag(pcov))
 u_a_fit, u_b_fit = ufloat(a_fit, perr[0]), ufloat(b_fit, perr[1])
-#_, _, chi2ndof =plot_fit_with_pull(x_data, [y.n for y in y_data], [y.s for y in y_data], fit_func, popt, perr, fitting_range=(100, 1400), xlabel="Energy (keV)", ylabel=r"$\Delta E / E$")
+_, _, chi2ndof =plot_fit_with_pull(x_data, [y.n for y in y_data], [y.s for y in y_data], fit_func, popt, perr, fitting_range=(100, 1400), xlabel="Energy (keV)", ylabel=r"$\Delta E / E$")
 ### Scheiße
+print(chi2ndof)
 ### Efficiency Calculation.
 N_peaks = [N_peak_1_cs, N_peak_1_co, N_peak_2_co, N_peak_1_eu, N_peak_2_eu, N_peak_3_eu, N_peak_4_eu, N_peak_5_eu] ### Ufloats!!!
 print(N_peaks[-1])
