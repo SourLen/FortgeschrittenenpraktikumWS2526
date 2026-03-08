@@ -30,42 +30,42 @@ class Source:
 SOURCES = {
     "Cs-137_1": Source(
         name="Cs-137; 4/1B",
-        a_ref=ufloat(44400, 0),
+        a_ref=ufloat(44400, 0.5/np.sqrt(3)),
         ref_date="1964-04-28",
         half_life_days=ufloat(11000, 90),
     ),
 
     "Cs-137_2": Source(
         name="Cs-137; OI 797",
-        a_ref=ufloat(24800, 0),
+        a_ref=ufloat(24800, 0.5/np.sqrt(3)),
         ref_date="2008-10-01",
         half_life_days=ufloat(11000, 90),
     ),
 
     "Co-60": Source(
         name="Co-60, LP 213",
-        a_ref=ufloat(37, 0),
+        a_ref=ufloat(37, 0.5/np.sqrt(3)),
         ref_date="2003-04-15",
         half_life_days=ufloat(1925.3, 0.4),
     ),
 
     "Cs-137_3": Source(
         name="Cs-137; MH 851",
-        a_ref=ufloat(37, 0),
+        a_ref=ufloat(37, 0.5/np.sqrt(3)),
         ref_date="2004-03-10",
         half_life_days=ufloat(11000, 90),
     ),
 
     "Eu-152": Source(
         name="Eu-152, MH 850",
-        a_ref=ufloat(37, 0),
+        a_ref=ufloat(37, 0.5/np.sqrt(3)),
         ref_date="2004-03-10",
         half_life_days=ufloat(4943, 5),
     ),
 
     "Na-22": Source(
         name="Na-22, MH 852",
-        a_ref=ufloat(37, 0),
+        a_ref=ufloat(37, 0.5/np.sqrt(3)),
         ref_date="2004-03-10",
         half_life_days=ufloat(950.5, 0.4),
     ),
