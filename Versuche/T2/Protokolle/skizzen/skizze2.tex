@@ -32,9 +32,10 @@ ev/.style={-latex, thick},
 
 
 \filldraw[color = black, fill=gray!50] (0, 0) circle (\r);
+\filldraw[color = black, fill=black!50](\c1*1.8, \s1*1.8) circle (0.15) node[above=15pt, right=-17pt]{Probe};
 \filldraw[color = black, fill=gray!70] (\d*\c2, \d*\s2) -- +(\c1*\e, \s1*\e) arc (-140:0:1.8) node[pos=0.5, below=5pt]{Bleikeil}-- cycle;
 \filldraw[color = black, fill=black!70] (0, 0) circle (\d) node[left=25pt, above=5pt]{Streukörper};
-\draw[dashed, thick] (\c1*\r, \s1*\r) -- (0,0);
+\draw[dashed, thick] (\c1*1.8, \s1*1.8) -- (0,0);
 \draw[dashed, thick] (0,0) -- (\c3*10, \s3*10);
 \draw[dashed, thick] (0,0) -- (\c3*10, -\s3*10);
 \draw (0,0) -- (-\c1, -\s1) arc(40:0:1) node[pos=0.6, left=2pt]{$\theta$} -- cycle;
@@ -43,6 +44,25 @@ ev/.style={-latex, thick},
 \filldraw[color = black, fill=black!50] (7*\c3, -7*\s3) -- (7*\c3 -1, -7*\s3) -- (7*\c3 -1, -7*\s3 -1) -- (7*\c3, -7*\s3 -1)node[below=5pt, pos=0.5]{Kollimator} -- cycle;
 
 \filldraw[color=black, fill=gray!30] (10,-1.6) -- (10,1.6) -- (12,1.6) -- (14,1.0) -- (16,1.0) -- (16,-1.0) -- (14,-1.0) -- (12,-1.6) -- cycle node[color=black, below=5pt, pos=0.5]{Szintillator};
+
+
+\draw[thick] (\c1*1.8, \s1*1.8) --++ (\c1*0.2, \s1*0.2) node[pos=0.5, below, left]{$s_0$};
+\draw[thick] (\c1*1.8, \s1*1.8) --++ (\s1*0.1, -\c1*0.1) --++ (-\s1*0.2, \c1*0.2);
+\draw[thick] (\c1*2, \s1*2) --++ (\s1*0.1, -\c1*0.1) --++ (-\s1*0.2, \c1*0.2);
+\draw[thick] (-2, 0) -- (0,0) node[pos=0.5, below]{$r_\text{T}$};
+\draw[thick] (-2, 0) --++ (0, 0.1) --++ (-0, -0.2);
+\draw[thick] (0, 0) --++ (0, 0.1) --++ (-0, -0.2);
+\draw[thick] (2, 0) -- (7*\c3-1,0) node[pos=0.6, below=-2pt]{$s_1$};
+\draw[thick] (2, 0) --++ (0, 0.1) --++ (-0, -0.2);
+\draw[thick] (7*\c3-1, 0) --++ (0, 0.1) --++ (-0, -0.2);
+\draw[thick] (7*\c3-1, 0) -- (7*\c3,0) node[pos=0.5, below=-2pt]{$s_2$};
+\draw[thick] (7*\c3-1, 0) --++ (0, 0.1) --++ (-0, -0.2);
+\draw[thick] (7*\c3, 0) --++ (0, 0.1) --++ (-0, -0.2);
+\draw[thick] (7*\c3, 0) -- (10,0) node[pos=0.5, below=-2pt]{$s_3$};
+\draw[thick] (7*\c3, 0) --++ (0, 0.1) --++ (-0, -0.2);
+\draw[thick] (10, 0) --++ (0, 0.1) --++ (-0, -0.2);
+
+
 
 \end{tikzpicture}
 \end{document}
