@@ -4,6 +4,10 @@ from gamma_analysis_ref import EnergyCalibration, PeakFit, fit_peak_single, fwhm
 from uncertainties import ufloat
 import json
 import activities_ref as act
+import absorbtion_ref as ab
+import ring_geometry_ref as rg
+import convential_geometry_ref as cg
+
 #### Load calibration Energy - Channel from energy_calibration.json
 with open("./Refactored/energy_calibration.json", "r") as f:
     cal_data = json.load(f)
@@ -148,7 +152,7 @@ def main() -> None:
     def theoretical_compton_energy(theta_deg: float) -> float:
         """Calculate the theoretical Compton edge energy for a given scattering angle."""
         theta_rad = np.radians(theta_deg)
-        E0_keV = 661.7  # Energy of the incident gamma ray in keV (Cs-137)
+        E0_keV = 661.66  # Energy of the incident gamma ray in keV (Cs-137)
         m_e_keV = 511.0  # Electron rest mass energy in keV
         return E0_keV / (1 + (E0_keV / m_e_keV) * (1 - np.cos(theta_rad)))
     plt.errorbar([a.n for a in angles[:5]], energies[:5], xerr = [a.s for a in angles[:5]], yerr=energy_errors[:5], fmt='o', label='Energie (Ring)')
@@ -181,7 +185,27 @@ def main() -> None:
         eps_s = np.sqrt((popt[0] * energy_error)**2 + (np.sqrt(pcov[0, 0]) * energy)**2 + pcov[1, 1] + 2 * energy * pcov[0, 1])
         eps = ufloat(eps_n, eps_s)
         eff_points.append(eps)
-    omega ###= F_D/r^2
-    
+    D_K = ufloat(2.445, 0.003)#cm
+    D_Z = ufloat(8.090, 0.003)#cm
+    def get_eta(angle_deg, material, energy_after, x_before, x_after, x_inside):
+        if material == "Al":
+            mat_data = ab.al_data
+        elif material == "Fe":
+            mat_data = ab.fe_data
+        else:
+            raise ValueError("Invalid material")
+        return ab.get_absorption(E=energy_after, E0=ufloat(0.661657, 0.000003), x_before=x_before, x_after=x_after, x_inside=x_inside, material=mat_data)
+    def find_n_e(material: str, is_ring: bool):
+        if is_ring:
+            volume = 2*np.pi*rg.d2**2*(rg.d / 2)
+        else:
+            volume = (cg.Ds / 2)**2 * np.pi * cg.h
+        if material == "Al":
+            N_e = volume * ab.atom_density_al
+        elif material == "Fe":
+            N_e = volume * ab.atom_density_fe
+        else:
+            raise ValueError("Invalid material")
+        return N_e
 if __name__ == "__main__":
     main()
