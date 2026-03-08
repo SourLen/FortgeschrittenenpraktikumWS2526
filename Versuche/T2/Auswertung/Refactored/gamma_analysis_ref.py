@@ -10,6 +10,7 @@ import json
 from scipy.optimize import curve_fit
 from uncertainties import ufloat
 from uncertainties import umath
+from scipy.odr import ODR, Model, RealData
 
 from activities_ref import SOURCES  
 from plotting_functions_ref import plot_data_fit_and_pulls
@@ -243,14 +244,22 @@ class EnergyCalibration:
         # for linear calibration, derivative is constant
         return 1 / self.m
 
-def fit_linear_calibration(energies_keV: np.ndarray, mus_channel: np.ndarray, mu_unc: np.ndarray) -> EnergyCalibration:
-    def lin(E, m, b):
-        return m*E + b
-
-    popt, pcov = curve_fit(lin, energies_keV, mus_channel, sigma=mu_unc, absolute_sigma=True)
+def fit_linear_calibration(energies_keV: np.ndarray, energies_unc: np.ndarray, mus_channel: np.ndarray, mu_unc: np.ndarray) -> EnergyCalibration:
+    def lin(beta, x):
+        m, b = beta
+        return m * x + b
+    model = Model(lin)
+    data = RealData(energies_keV, mus_channel, sx=energies_unc, sy=mu_unc)
+    odr = ODR(data, model, beta0=[1.0, 0.0])
+    out = odr.run()
+    
+    popt = out.beta
+    pcov = out.cov_beta
     perr = np.sqrt(np.diag(pcov))
     m = ufloat(popt[0], perr[0])
     b = ufloat(popt[1], perr[1])
+
+    
     return EnergyCalibration(m=m, b=b, cov=pcov)
 
 def fwhm_from_sigma_channel(sigma_ch: ufloat) -> ufloat:
@@ -350,13 +359,13 @@ def main() -> None:
     # ---- peak definitions ----
     # Each item: (spectrum, label, range_lo, range_hi, literature_energy_keV, I_gamma_fraction, source_key)
     PEAKS = [
-        (cs, "Cs-137, 661.7", (460, 535), 661.66, ufloat(0.8500, 0.0020), "Cs-137; MH 851"),
-        (co, "Co-60, 1173",   (840, 900), 1173.23, ufloat(0.9985, 0.0003), "Co-60, LP 213"),
-        (co, "Co-60, 1332",   (950, 1015),1332.49, ufloat(0.999826, 0.000006), "Co-60, LP 213"),
-        (eu, "Eu-152, 121.8", (90, 115),  121.78, ufloat(0.2858, 0.0009), "Eu-152, MH 850"),
-        (eu, "Eu-152, 244.7", (177, 213), 244.70, ufloat(0.07580, 0.00030), "Eu-152, MH 850"),
-        (eu, "Eu-152, 344.3", (250, 285), 344.28, ufloat(0.265, 0.006), "Eu-152, MH 850"),
-        (eu, "Eu-152, 778.9", (547, 618), 778.90, ufloat(0.1294, 0.0015), "Eu-152, MH 850"),
+        (cs, "Cs-137, 661.7", (460, 535), 661.657, ufloat(0.8500, 0.0020), "Cs-137; MH 851"),
+        (co, "Co-60, 1173",   (840, 900), 1173.237, ufloat(0.9985, 0.0003), "Co-60, LP 213"),
+        (co, "Co-60, 1332",   (950, 1015),1332.501, ufloat(0.999826, 0.000006), "Co-60, LP 213"),
+        (eu, "Eu-152, 121.8", (90, 115),  121.7817, ufloat(0.2858, 0.0009), "Eu-152, MH 850"),
+        (eu, "Eu-152, 244.7", (177, 213), 244.6975, ufloat(0.07580, 0.00030), "Eu-152, MH 850"),
+        (eu, "Eu-152, 344.3", (250, 285), 344.2785, ufloat(0.265, 0.006), "Eu-152, MH 850"),
+        (eu, "Eu-152, 778.9", (547, 618), 778.9040, ufloat(0.1294, 0.0015), "Eu-152, MH 850"),
         # (eu, "Eu-152 ~1086/1112", (770, 845), 1085.90, ufloat(0.1021, 0.0004), "Eu-152, MH 850"),
     ]
 
@@ -368,7 +377,7 @@ def main() -> None:
     sigmas = []
 
     for spec, label, fr, E, I, source_name in PEAKS:
-        pf = fit_peak_single(spec, fr, label=label, plot=True, plot_title = f"{label} keV line")
+        pf = fit_peak_single(spec, fr, label=label, plot=False, plot_title = f"{label} keV line")
         peakfits.append(pf)
         energies.append(E)
         mu.append(pf.mu.n)
@@ -376,11 +385,12 @@ def main() -> None:
         sigmas.append(pf.sigma)
 
     energies = np.asarray(energies, float)
+    energies_theo_unc = np.array([0.003, 0.004, 0.005, 0.0003, 0.0008, 0.0012, 0.0018]) # 0.024
     mu = np.asarray(mu, float)
     mu_unc = np.asarray(mu_unc, float)
 
     # ---- calibration ----
-    cal = fit_linear_calibration(energies, mu, mu_unc)
+    cal = fit_linear_calibration(energies, energies_theo_unc, mu, mu_unc)
     ### Save calibration result to JSON for later use
     cal_dict = {
         "m": {"value": cal.m.n, "uncertainty": cal.m.s},
