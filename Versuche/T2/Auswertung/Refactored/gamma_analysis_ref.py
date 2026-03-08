@@ -11,7 +11,7 @@ from scipy.optimize import curve_fit
 from uncertainties import ufloat
 from uncertainties import umath
 
-from activities_ref import SOURCES  # your refactored sources module
+from activities_ref import SOURCES  
 from plotting_functions_ref import plot_data_fit_and_pulls
 from general_analysis_classes import load_tka_counts, Spectrum, CorrectedSpectrum, subtract_background, PeakFit
 
