@@ -5,3 +5,28 @@
 \subsection{Gammaspektroskopie}
 
 \subsection{Compton Streuung}
+
+\subsubsection{Absorption}
+
+Um die Absorption der Photonen von Quelle bis Oszillator zu berücksichtigen, betrachten wir $\eta$ mit
+\begin{equation}\label{absorption}
+    \eta(\theta) = \exp{(-\mu_{\text{Luft}}(E_\gamma)x_{\text{Luft}})}\exp{(-\mu_{\text{Probe}}(E_\gamma)x_{\text{Probe}})}\exp{(-\mu_{\text{Probe}}(E_\gamma'(\theta))x_{\text{Probe}}')}\exp{(-\mu_{\text{Luft}}(E_\gamma'(\theta))x_{\text{Luft}}')}
+\end{equation}
+Die Abstände $x_{\text{Luft}}, x_{\text{Probe}}$ usw. wurden wie in \ref{Durchführung} beschrieben bestimmt.\\
+Für den Schwächungskoeffizienten $\mu$ nutzen wird die Literaturwerte \cite{data_nist} für den Massenschwächungskoeffizienten $\mu/\rho$ der Medien (Eisen, Aluminium und Luft) und deren Dichte $\rho$
+\begin{center}
+    \begin{tabular}{llll}
+        E in MeV & $(\mu/\rho)_\text{Al}$ in $\unit{\centi\meter^2\gram^{-1}}$ & $(\mu/\rho)_\text{Fe}$ in $\unit{\centi\meter^2\gram^{-1}}$ & $(\mu/\rho)_\text{Luft}$ in $\unit{\centi\meter^2\gram^{-1}}$ \\
+        \texttt{1.50000E-01} & \texttt{1.378E-01} & \texttt{1.964E-01} & \texttt{1.356E-01} \\
+        \texttt{2.00000E-01} & \texttt{1.223E-01} & \texttt{1.460E-01} & \texttt{1.223E-01} \\
+        \texttt{3.00000E-01} & \texttt{1.042E-01} & \texttt{1.099E-01} & \texttt{1.067E-01} \\
+        \texttt{4.00000E-01} & \texttt{9.276E-02} & \texttt{9.400E-02} & \texttt{9.549E-02} \\
+        \texttt{5.00000E-01} & \texttt{8.445E-02} & \texttt{8.414E-02} & \texttt{8.712E-02} \\
+        \texttt{6.00000E-01} & \texttt{7.802E-02} & \texttt{7.704E-02} & \texttt{8.055E-02} \\
+        \texttt{8.00000E-01} & \texttt{6.841E-02} & \texttt{6.699E-02} & \texttt{7.074E-02} \\
+        &&&\\
+        & $\rho_\text{Luft}$ in $\unit{\gram^1\centi\meter^{-3}}$ & $\rho_\text{Al}$ in $\unit{\gram^1\centi\meter^{-3}}$ & $\rho_\text{Fe}$ in $\unit{\gram^1\centi\meter^{-3}}$ \\
+        \texttt{-} & \texttt{2.330E+00} & \texttt{7.874E+00} & \texttt{1.205E-03} \\
+    \end{tabular}
+\end{center}
+um $\mu/\rho$ gegen eine lineare Funktion zu fitten. Dies ist sinnvoll, da die Energien der gestreuten Photonen in diesem Bereich liegen und $\mu/\rho$ in diesem Energiebereich einen näherungsweise linearen Verlauf hat. Damit bestimmen wir dann mithilfe der Energie der (gestreuten) Photonen den Massenschwächungskoeffizienten $(\mu/\rho)_\text{fit}(E, \text{Material})$ in jedem Schritt. Dies nutzem wir zusammen mit der Dichte und den entsprechenden Wegstrecken um $\eta(\theta)$ nach \ref{absorption} für die unterschiedlichen Streuwinkel und Streukörper zu bestimmen.
