@@ -1,4 +1,26 @@
+# Setting luatex as pdf-generating mode
+
 $pdf_mode = 4;
-$out_dir = 'Versuche\T2\Protokolle';
-$aux_dir = 'Versuche\T2\Protokolle\aux_folder';
-ensure_path('TEXINPUTS', 'Versuche\T2\Protokolle');
+$lualatex = 'lualatex -synctex=1 -interaction=nonstopmode %O %S';
+
+# default checking for changes not timestamps (no -g needed if tex root for input)
+
+$hash_fdb_by_input = 1;
+
+# Work in directory of main tex file
+
+$do_cd = 1;
+
+# Directories for output and aux-files (relative to main tex file)
+
+$out_dir = './';
+$aux_dir = 'aux_folder';
+ensure_path('TEXINPUTS', './');
+
+# max repeat (default is 5)
+
+$max_repeat=5;
+
+# clean up generated files
+
+$clean_ext = 'aux bbl blg idx lof log lot out toc synctex.gz';
