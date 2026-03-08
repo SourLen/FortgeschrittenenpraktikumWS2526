@@ -1,7 +1,7 @@
 from general_analysis_classes import *
 from plotting_functions_ref import *
 from gamma_analysis_ref import EnergyCalibration, PeakFit, fit_peak_single, fwhm_energy_from_sigma_channel
-from uncertainties import ufloat
+from uncertainties import ufloat, UFloat
 import json
 import activities_ref as act
 import absorbtion_ref as ab
@@ -167,9 +167,10 @@ def main() -> None:
     #plt.show()
     
     
-    #### Determine the rate m for each peak
-    activity = act.SOURCES["Cs-137_1"].activity_on()
-    I_gamma = ufloat(0.8500, 0.0020)
+    ### Rate m per peak (Erst alle Ring, dann Konv abwechselend Al, Fe)
+    rates = []
+    for (spec, label, fit_range), pf  in zip(PEAKS, peakfits):
+        rates.append(pf.area / spec.live_time_s)
     ### Load efficiency curve from JSON
     with open(".\Refactored\efficiency_fit_results.json", "r") as f:
         eff_data = json.load(f)
@@ -184,10 +185,20 @@ def main() -> None:
         # Propagate uncertainty from energy to efficiency using the fit parameters
         eps_s = np.sqrt((popt[0] * energy_error)**2 + (np.sqrt(pcov[0, 0]) * energy)**2 + pcov[1, 1] + 2 * energy * pcov[0, 1])
         eps = ufloat(eps_n, eps_s)
-        eff_points.append(eps)
-    D_K = ufloat(2.445, 0.003)#cm
-    D_Z = ufloat(8.090, 0.003)#cm
-    def get_eta(angle_deg, material, energy_after, x_before, x_after, x_inside):
+        eff_points.append((energy, eps))
+    kollimDM = cg.Dk #cm für konventionelle Geometrie
+    detectDM = cg.Dz #cm für Ringgeometrie
+    r_conv = cg.s1+cg.s2+cg.rT
+    r0_conv = cg.rT-cg.s0
+    activity = act.SOURCES["Cs-137_1"].activity_on()
+    I_gamma = ufloat(0.8500, 0.0020)
+    def get_r_r0_ring(angle_deg: float) -> tuple[UFloat, UFloat]:
+        idx = round(angle_deg)/10 - 1
+        r = np.sqrt(rg.a[int(idx)]**2 + (rg.d/2)**2)
+        r0 = np.sqrt(rg.b[int(idx)]**2 + (rg.d/2)**2)
+        return r, r0
+
+    def get_eta(material, energy_after, x_before, x_after, x_inside):
         if material == "Al":
             mat_data = ab.al_data
         elif material == "Fe":
@@ -207,5 +218,15 @@ def main() -> None:
         else:
             raise ValueError("Invalid material")
         return N_e
+    
+    def diff_cross_section(theta_deg: float, material: str, is_ring: bool, energy_peak_fitted: UFloat) -> UFloat:
+        if is_ring:
+            r, r0 = get_r_r0_ring(theta_deg)
+            F_D = np.pi*(detectDM/2)**2
+        else:
+            r, r0 = r_conv, r0_conv
+            F_D = np.pi*(kollimDM/2)**2
+        eta = get_eta(material, energy_peak_fitted, x_before=cg.x_luft1, x_after=cg.x_luft2, x_inside=cg.x_material)
+        #### .....
 if __name__ == "__main__":
     main()

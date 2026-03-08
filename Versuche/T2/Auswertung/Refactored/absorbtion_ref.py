@@ -1,5 +1,5 @@
 import numpy as np
-from uncertainties import ufloat
+from uncertainties import ufloat, UFloat ### UFloat nur für type hinting in funktionen iwie kp mein vscode meckert bei ufloat
 from uncertainties import umath
 from scipy.optimize import curve_fit
 from FortgeschrittenenpraktikumWS2526.Versuche.T2.Auswertung.Refactored.ring_geometry_ref import x2, x1, xring
@@ -44,7 +44,7 @@ def get_mac(E, E_ref, mac_ref):
     popt, pcov = curve_fit(mac, E_ref, mac_ref)
     return mac(E, ufloat(popt[0], pcov[0, 0]**0.5), ufloat(popt[1], pcov[1, 1]**0.5))
 
-def get_absorption(E, E0, x_before, x_after, x_inside, material, air=air_data):
+def get_absorption(E: UFloat, E0: UFloat, x_before:UFloat, x_after: UFloat, x_inside: UFloat, material: tuple, air=air_data)-> UFloat:
     E_steps = np.array([E0, E0, E, E])
     E_ref_steps = np.array([air[1], material[1], material[1], air[1]])
     mac_ref_steps = np.array([air[2], material[2], material[2], air[2]])
@@ -59,6 +59,6 @@ def get_absorption(E, E0, x_before, x_after, x_inside, material, air=air_data):
         eta *= umath.exp(-mac_steps[i] * density_steps[i] * x_steps[i])
     return eta
 
-E_example = 0.6
+E_example = ufloat(0.6, 0.0001)
 
 print('Beispiel: eta = ', get_absorption(E=E_example, E0=E_gamma, x_before=x2[0], x_after=x1[0], x_inside=xring, material=al_data))
