@@ -437,9 +437,9 @@ def main() -> None:
     )
     # ---- efficiency geometry ----
     geom = CollimatorGeometry(
-        radius_cm=ufloat(1.2375, 0.005/np.sqrt(12)),  # keep your current estimate
+        radius_cm=ufloat(1.2375, 0.0025/np.sqrt(12)), 
         d0_cm=ufloat(12.1, 0.01/np.sqrt(12)),
-        L_cm=ufloat(5.0475, 0.01/np.sqrt(12)),
+        L_cm=ufloat(5.0475, 0.005/np.sqrt(12)),
     )
     omega = geom.omega_small_angle()
     import datetime as dt
