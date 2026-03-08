@@ -13,7 +13,7 @@ from uncertainties import umath
 
 from activities_ref import SOURCES  # your refactored sources module
 from plotting_functions_ref import plot_data_fit_and_pulls
-from general_analysis_classes import load_tka_counts, Spectrum, CorrectedSpectrum, subtract_background
+from general_analysis_classes import load_tka_counts, Spectrum, CorrectedSpectrum, subtract_background, PeakFit
 
 # -------------------------
 # Peak models + fitting
@@ -33,16 +33,6 @@ def two_gauss_shared_sigma_linbg(
     g2 = A2 * np.exp(-(x - mu2) ** 2 / (2 * sig ** 2))
     return g1 + g2 + (p0 + p1 * x)
 
-@dataclass(frozen=True)
-class PeakFit:
-    label: str
-    model_name: str
-    popt: np.ndarray
-    pcov: np.ndarray
-    mu: ufloat            # centroid in channel (or effective centroid for multiplet)
-    sigma: ufloat         # Gaussian sigma in channel
-    area: ufloat          # net Gaussian area in counts (sum for multiplet)
-    fit_range: tuple[int, int]
 
 def fit_peak_single(
     ### Fit a single Gaussian + linear background to the specified range of the spectrum.
@@ -53,6 +43,7 @@ def fit_peak_single(
     plot_title: str = "",
     context_pad: int = 40,
     bounds: Optional[tuple[Sequence[float], Sequence[float]]] = None,
+    conv: bool = False,
 ) -> PeakFit:
     
     lo, hi = fit_range
@@ -96,7 +87,8 @@ def fit_peak_single(
 
     # Gaussian area in counts/bin convention (bin width = 1 channel)
     area = uA * usig * np.sqrt(2.0 * np.pi)
-
+    u_area = (2*np.pi*(usig.n**2*perr[0]**2 + uA.n**2*perr[2]**2+ 2*usig.n*uA.n*pcov[0, 2]))**0.5
+    area = ufloat(area.n, u_area)
     fit = PeakFit(
         label=label,
         model_name="gauss+linbg",
@@ -106,6 +98,7 @@ def fit_peak_single(
         sigma=usig,
         area=area,
         fit_range=fit_range,
+        conv=conv,
     )
 
     if plot:
@@ -290,9 +283,17 @@ def photopeak_efficiency(
     activity_bq: ufloat,
     I_gamma: ufloat,        # fraction (not percent)
     omega: ufloat,
+    cov: Optional[np.ndarray] = None
 ) -> ufloat:
-    rate = peak_area_counts / live_time_s
-    return rate * 4*np.pi / (activity_bq * I_gamma * omega)
+    if cov is None:
+        rate = peak_area_counts / live_time_s
+        eff = rate * 4*np.pi / (activity_bq * I_gamma * omega)
+    else:
+        # Propagate uncertainties with covariance
+        eff = (peak_area_counts / live_time_s) * 4*np.pi / (activity_bq * I_gamma * omega)
+        rel_unc_eff = np.sqrt((peak_area_counts.s / peak_area_counts.n) ** 2 + (activity_bq.s / activity_bq.n) ** 2 + (I_gamma.s / I_gamma.n) ** 2 + (omega.s / omega.n) ** 2)
+        eff = ufloat(eff.n, rel_unc_eff * eff.n)
+    return eff
 
 
 # -------------------------
@@ -349,13 +350,13 @@ def main() -> None:
     # ---- peak definitions ----
     # Each item: (spectrum, label, range_lo, range_hi, literature_energy_keV, I_gamma_fraction, source_key)
     PEAKS = [
-        (cs, "Cs-137, 661.7", (450, 550), 661.66, ufloat(0.8500, 0.0020), "Cs-137; MH 851"),
-        (co, "Co-60, 1173",   (835, 905), 1173.23, ufloat(0.9985, 0.0003), "Co-60, LP 213"),
-        (co, "Co-60, 1332",   (950, 1020),1332.49, ufloat(0.999826, 0.000006), "Co-60, LP 213"),
-        (eu, "Eu-152, 121.8", (90, 120),  121.78, ufloat(0.2858, 0.0009), "Eu-152, MH 850"),
-        (eu, "Eu-152, 244.7", (170, 215), 244.70, ufloat(0.07580, 0.00030), "Eu-152, MH 850"),
-        (eu, "Eu-152, 344.3", (240, 290), 344.28, ufloat(0.265, 0.006), "Eu-152, MH 850"),
-        (eu, "Eu-152, 778.9", (545, 620), 778.90, ufloat(0.1294, 0.0015), "Eu-152, MH 850"),
+        (cs, "Cs-137, 661.7", (460, 535), 661.66, ufloat(0.8500, 0.0020), "Cs-137; MH 851"),
+        (co, "Co-60, 1173",   (840, 900), 1173.23, ufloat(0.9985, 0.0003), "Co-60, LP 213"),
+        (co, "Co-60, 1332",   (950, 1015),1332.49, ufloat(0.999826, 0.000006), "Co-60, LP 213"),
+        (eu, "Eu-152, 121.8", (90, 115),  121.78, ufloat(0.2858, 0.0009), "Eu-152, MH 850"),
+        (eu, "Eu-152, 244.7", (177, 213), 244.70, ufloat(0.07580, 0.00030), "Eu-152, MH 850"),
+        (eu, "Eu-152, 344.3", (250, 285), 344.28, ufloat(0.265, 0.006), "Eu-152, MH 850"),
+        (eu, "Eu-152, 778.9", (547, 618), 778.90, ufloat(0.1294, 0.0015), "Eu-152, MH 850"),
         # (eu, "Eu-152 ~1086/1112", (770, 845), 1085.90, ufloat(0.1021, 0.0004), "Eu-152, MH 850"),
     ]
 
@@ -367,7 +368,7 @@ def main() -> None:
     sigmas = []
 
     for spec, label, fr, E, I, source_name in PEAKS:
-        pf = fit_peak_single(spec, fr, label=label, plot=False, plot_title = f"{label} keV line")
+        pf = fit_peak_single(spec, fr, label=label, plot=True, plot_title = f"{label} keV line")
         peakfits.append(pf)
         energies.append(E)
         mu.append(pf.mu.n)
@@ -427,7 +428,7 @@ def main() -> None:
     # ---- efficiency geometry ----
     geom = CollimatorGeometry(
         radius_cm=ufloat(1.2375, 0.005/np.sqrt(12)),  # keep your current estimate
-        d0_cm=ufloat(12.1, 0.1/np.sqrt(12)),
+        d0_cm=ufloat(12.1, 0.01/np.sqrt(12)),
         L_cm=ufloat(5.0475, 0.01/np.sqrt(12)),
     )
     omega = geom.omega_small_angle()
@@ -447,26 +448,53 @@ def main() -> None:
             I_gamma=I,
             omega=omega,
         )
+        
         eff_points.append((E_lit, eps))
+    
+
+     # ---- Compton scattering analysis ----
     # Fit linear model to efficiency over energy
             
-    def lin_eff(E, a, b):
+    def eff_fit_model(E, a, b):
         return a*E + b
     E_fit = np.linspace(min(energies)*0.9, max(energies)*1.1, 100)
     eff_values = np.array([e.n for _, e in eff_points])
-    popt, pcov = curve_fit(lin_eff, energies, eff_values)
-    chi2 = np.sum((eff_values - lin_eff(energies, *popt))**2/np.array([e.s for _, e in eff_points])**2)
+    popt, pcov = curve_fit(eff_fit_model, energies, eff_values, sigma=np.array([e.s for _, e in eff_points]), absolute_sigma=True)
+    chi2 = np.sum((eff_values - eff_fit_model(energies, *popt))**2/np.array([e.s for _, e in eff_points])**2)
     ndof = len(eff_values) - len(popt)
     chi2_red = chi2 / ndof if ndof > 0 else float("nan")
+    ### Alternative: Exclude two critical points, largest uncertainties
+    eff_values_excl = np.array([e.n for i, (_, e) in enumerate(eff_points) if i not in [4, 6]])  # exclude 244.7 and 789 keV points
+    energies_excl = np.array([E for i, (E, _) in enumerate(eff_points) if i not in [4, 6]])
+    print(energies_excl)
+    popt_excl, pcov_excl = curve_fit(eff_fit_model, energies_excl, eff_values_excl, sigma=np.array([e.s for i, (_, e) in enumerate(eff_points) if i not in [4, 6]]), absolute_sigma=True)
+    chi2_excl = np.sum((eff_values_excl - eff_fit_model(energies_excl, *popt_excl))**2/np.array([e.s for i, (_, e) in enumerate(eff_points) if i not in [4, 6]])**2)
+    ndof_excl = len(eff_values_excl) - len(popt_excl)
+    chi2_red_excl = chi2_excl / ndof_excl if ndof_excl > 0 else float("nan")
+    
+    print("a =", popt[0], "+/-", np.sqrt(pcov[0, 0]))
+    print("b =", popt[1], "+/-", np.sqrt(pcov[1, 1]))
+    ### Save fit results to JSON, include the model definition (so linear, or quadratic)
+    fit_results = {
+        "popt": popt.tolist(),
+        "pcov": pcov.tolist(),
+        "chi2_red": chi2_red,
+        "model": "linear",
+    }
 
-    # Plot efficiency and linear regression
+    ### Save fit results to JSON file
+    with open("./Refactored/efficiency_fit_results.json", "w") as f:
+        json.dump(fit_results, f, indent=4)
+
+        # Plot efficiency and linear regression
     import matplotlib.pyplot as plt
     E_plot = [E for E, _ in eff_points]
     eps_n = [e.n for _, e in eff_points]
     eps_s = [e.s for _, e in eff_points]
 
     plt.errorbar(E_plot, eps_n, yerr=eps_s, fmt="o")
-    plt.plot(E_fit, lin_eff(E_fit, *popt), label=r"Linear fit: $\epsilon = aE + b$" + f"\n$\chi^2_{{red}}={chi2_red:.2f}$")
+    plt.plot(E_fit, eff_fit_model(E_fit, *popt), label=r"Linear fit: $\epsilon = aE + b$" + f"\n$\chi^2_{{red}}={chi2_red:.2f}$")
+    plt.plot(E_fit, eff_fit_model(E_fit, *popt_excl), label=r"Linear fit excl. 244.7 & 789 keV" + f"\n$\chi^2_{{red}}={chi2_red_excl:.2f}$", linestyle="--")
     plt.xlabel("Energy (keV)")
     plt.ylabel(r"Efficiency $\varepsilon$") 
     plt.legend()

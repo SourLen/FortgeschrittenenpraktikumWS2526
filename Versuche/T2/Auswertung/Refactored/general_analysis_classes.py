@@ -67,3 +67,21 @@ def subtract_background(signal: Spectrum, background: Spectrum) -> CorrectedSpec
         alpha=alpha,
         live_time_s=signal.live_time_s,
     )
+
+@dataclass(frozen=True)
+class PeakFit:
+    label: str
+    model_name: str
+    popt: np.ndarray
+    pcov: np.ndarray
+    mu: ufloat            # centroid in channel (or effective centroid for multiplet)
+    sigma: ufloat         # Gaussian sigma in channel
+    area: ufloat          # net Gaussian area in counts (sum for multiplet)
+    fit_range: tuple[int, int]
+    conv: bool = False
+
+def peak_rate(peak: PeakFit, time: float) -> float:
+    """
+    Calculate the count rate (counts per second) for a given peak fit and measurement time.
+    """
+    return peak.area / time

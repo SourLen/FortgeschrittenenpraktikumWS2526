@@ -15,7 +15,7 @@ class Source:
     def activity_on(self, date=None):
         """Return activity at a given date (default: today)."""
         if date is None:
-            date = datetime.now()
+            date = datetime(2026, 3, 5)
 
         ref_date = datetime.strptime(self.ref_date, "%Y-%m-%d")
 
