@@ -3,10 +3,6 @@
 $pdf_mode = 4;
 $lualatex = 'lualatex -synctex=1 -interaction=nonstopmode %O %S';
 
-# default checking for changes not timestamps (no -g needed if tex root for input)
-
-# $hash_fdb_by_input = 1;
-
 # Work in directory of main tex file
 
 $do_cd = 1;
