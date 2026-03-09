@@ -1,7 +1,7 @@
 from general_analysis_classes import *
 from plotting_functions_ref import *
 from gamma_analysis_ref import EnergyCalibration, PeakFit, fit_peak_single, fwhm_energy_from_sigma_channel
-from uncertainties import ufloat, UFloat
+from uncertainties import ufloat, UFloat, umath
 import json
 import activities_ref as act
 import absorbtion_ref as ab
@@ -28,6 +28,58 @@ def comparison_plot(spec1: CorrectedSpectrum, spec2: CorrectedSpectrum, spec3: C
     plt.legend()
     plt.tight_layout()
     #plt.show()
+    
+def get_r_r0_ring(angle_deg: float) -> tuple[UFloat, UFloat]:
+        idx = round(angle_deg)/10 - 1
+        r = umath.sqrt(rg.a[int(idx)]**2 + (rg.d/2)**2)
+        r0 = umath.sqrt(rg.b[int(idx)]**2 + (rg.d/2)**2)
+        return r, r0
+def get_eta(material: str, energy_after: UFloat, x_before:UFloat, x_after: UFloat, x_inside: UFloat) -> UFloat:
+        if material == "Al":
+            mat_data = ab.al_data
+        elif material == "Fe":
+            mat_data = ab.fe_data
+        else:
+            raise ValueError("Invalid material")
+        return ab.get_absorption(E=energy_after, E0=ufloat(0.661657, 0.000003), x_before=x_before, x_after=x_after, x_inside=x_inside, material=mat_data)
+def find_n_e(material: str, is_ring: bool):
+        if is_ring:
+            volume = 2*np.pi*rg.d2**2*(rg.d / 2)
+        else:
+            volume = (cg.Ds / 2)**2 * np.pi * cg.h
+        if material == "Al":
+            N_e = volume * ab.atom_density_al
+        elif material == "Fe":
+            N_e = volume * ab.atom_density_fe
+        else:
+            raise ValueError("Invalid material")
+        return N_e
+     
+def diff_cross_section(theta_deg: float, material: str, is_ring: bool, 
+                       energy_peak_fitted: UFloat, peak_id: str, kollimDM: UFloat, 
+                       detectDM: UFloat, r_conv: UFloat, r0_conv: UFloat, activity: UFloat, I_gamma: UFloat, rates: list[UFloat], eff_points: list[tuple[UFloat, UFloat]],
+                       PEAKS: list[tuple[float, float, float, str]]) -> UFloat:
+        if is_ring:
+            r, r0 = get_r_r0_ring(theta_deg)
+            F_D = np.pi*(detectDM/2)**2
+            eta = get_eta(material, energy_peak_fitted/1000, x_before=rg.x2[int(theta_deg/10)-1], x_after=rg.x1[int(theta_deg/10)-1], x_inside=rg.xring)
+        else:
+            r, r0 = r_conv, r0_conv
+            F_D = np.pi*(kollimDM/2)**2
+            eta = get_eta(material, energy_peak_fitted/1000, x_before=cg.x_luft1, x_after=cg.x_luft2, x_inside=cg.x_material)
+        idx = None
+        for i in range(len(PEAKS)):
+            if PEAKS[i][3] == peak_id:
+                idx = i
+                break
+        if idx is None:
+            raise ValueError("Invalid peak_id")
+        rate = rates[idx]
+        efficiency = eff_points[idx][1]
+        print(f"Testeffizienz: {efficiency}")
+        N_e = find_n_e(material, is_ring)
+        d_sigma = rate / (activity *1e3* I_gamma * (F_D / (4 * np.pi * r**2 * r0**2)) * eta * efficiency * N_e)
+        return d_sigma
 # -------------------------
 # Main (config + run)
 # -------------------------
@@ -108,26 +160,26 @@ def main() -> None:
     
     
     ### Fits on the energy peaks
-    ### Peaks: (spectrum, label, (range_lo, range_hi))
+    ### Peaks: (spectrum, label, (range_lo, range_hi), identifier)
     PEAKS = [
-            (ring_corr["ring_10_corr"], "Ring 10°", (430, 580)),
-            (ring_corr["ring_20_corr"], "Ring 20°", (410, 550)),
-            (ring_corr["ring_30_corr"], "Ring 30°", (380, 465)),
-            (ring_corr["ring_40_corr"], "Ring 40°", (330, 470)),
-            (ring_corr["ring_50_corr"], "Ring 50°", (290, 425)),
-            (conv_corr["conv_50_al_corr"], "Conv 50° Al", (300, 420)),
-            (conv_corr["conv_50_fe_corr"], "Conv 50° Fe", (300, 420)),
-            (conv_corr["conv_60_al_corr"], "Conv 60° Al", (275, 360)),
-            (conv_corr["conv_60_fe_corr"], "Conv 60° Fe", ( 270, 365)),
-            (conv_corr["conv_80_al_corr"], "Conv 80° Al", ( 220, 290)),
-            (conv_corr["conv_80_fe_corr"], "Conv 80° Fe", ( 225, 290)),
-            (conv_corr["conv_105_al_corr"], "Conv 105° Al", (175, 230)),
-            (conv_corr["conv_105_fe_corr"], "Conv 105° Fe", (175, 240)),
-            (conv_corr["conv_135_al_corr"], "Conv 135° Al", (140, 195)),
-            (conv_corr["conv_135_fe_corr"], "Conv 135° Fe", (145, 190)),
+            (ring_corr["ring_10_corr"], "Ring 10°", (430, 580), "r10"),
+            (ring_corr["ring_20_corr"], "Ring 20°", (410, 550), "r20"),
+            (ring_corr["ring_30_corr"], "Ring 30°", (380, 465), "r30"),
+            (ring_corr["ring_40_corr"], "Ring 40°", (330, 470), "r40"),
+            (ring_corr["ring_50_corr"], "Ring 50°", (290, 425), "r50"),
+            (conv_corr["conv_50_al_corr"], "Conv 50° Al", (300, 420), "c50al"),
+            (conv_corr["conv_50_fe_corr"], "Conv 50° Fe", (300, 420), "c50fe"),
+            (conv_corr["conv_60_al_corr"], "Conv 60° Al", (275, 360), "c60al"),
+            (conv_corr["conv_60_fe_corr"], "Conv 60° Fe", ( 270, 365), "c60fe"),
+            (conv_corr["conv_80_al_corr"], "Conv 80° Al", ( 220, 290), "c80al"),
+            (conv_corr["conv_80_fe_corr"], "Conv 80° Fe", ( 225, 290), "c80fe"),
+            (conv_corr["conv_105_al_corr"], "Conv 105° Al", (175, 230), "c105al"),
+            (conv_corr["conv_105_fe_corr"], "Conv 105° Fe", (175, 240), "c105fe"),
+            (conv_corr["conv_135_al_corr"], "Conv 135° Al", (140, 195), "c135al"),
+            (conv_corr["conv_135_fe_corr"], "Conv 135° Fe", (145, 190), "c135fe"),
         ]
     peakfits: list[PeakFit] = []
-    for spec, label, fit_range in PEAKS:
+    for spec, label, fit_range, identifier in PEAKS:
         if label.startswith("Conv"):
             pf = fit_peak_single(spec, fit_range, label, plot=False, conv=True)
         else:
@@ -169,12 +221,11 @@ def main() -> None:
     
     ### Rate m per peak (Erst alle Ring, dann Konv abwechselend Al, Fe)
     rates = []
-    for (spec, label, fit_range), pf  in zip(PEAKS, peakfits):
+    for (spec, label, fit_range, identifier), pf  in zip(PEAKS, peakfits):
         rates.append(pf.area / spec.live_time_s)
     ### Load efficiency curve from JSON
     with open(".\Refactored\efficiency_fit_results.json", "r") as f:
         eff_data = json.load(f)
-        print(eff_data)
     eff_fit_model = lambda E, a, b: a * E + b
     popt = np.array(eff_data["popt"])
     pcov = np.array(eff_data["pcov"])
@@ -183,7 +234,7 @@ def main() -> None:
     for energy, energy_error in zip(energies, energy_errors):
         eps_n = eff_fit_model(energy, *popt)
         # Propagate uncertainty from energy to efficiency using the fit parameters
-        eps_s = np.sqrt((popt[0] * energy_error)**2 + (np.sqrt(pcov[0, 0]) * energy)**2 + pcov[1, 1] + 2 * energy * pcov[0, 1])
+        eps_s = umath.sqrt((popt[0] * energy_error)**2 + (np.sqrt(pcov[0, 0]) * energy)**2 + pcov[1, 1] + 2 * energy * pcov[0, 1])
         eps = ufloat(eps_n, eps_s)
         eff_points.append((energy, eps))
     kollimDM = cg.Dk #cm für konventionelle Geometrie
@@ -192,41 +243,40 @@ def main() -> None:
     r0_conv = cg.rT-cg.s0
     activity = act.SOURCES["Cs-137_1"].activity_on()
     I_gamma = ufloat(0.8500, 0.0020)
-    def get_r_r0_ring(angle_deg: float) -> tuple[UFloat, UFloat]:
-        idx = round(angle_deg)/10 - 1
-        r = np.sqrt(rg.a[int(idx)]**2 + (rg.d/2)**2)
-        r0 = np.sqrt(rg.b[int(idx)]**2 + (rg.d/2)**2)
-        return r, r0
-
-    def get_eta(material, energy_after, x_before, x_after, x_inside):
-        if material == "Al":
-            mat_data = ab.al_data
-        elif material == "Fe":
-            mat_data = ab.fe_data
+    d_sigmas = []
+    for (spec, label, fit_range, identifier), energy_peak_fitted in zip(PEAKS, energies):
+        if label.startswith("Ring"):
+            is_ring = True
+            material = "Al"
         else:
-            raise ValueError("Invalid material")
-        return ab.get_absorption(E=energy_after, E0=ufloat(0.661657, 0.000003), x_before=x_before, x_after=x_after, x_inside=x_inside, material=mat_data)
-    def find_n_e(material: str, is_ring: bool):
-        if is_ring:
-            volume = 2*np.pi*rg.d2**2*(rg.d / 2)
-        else:
-            volume = (cg.Ds / 2)**2 * np.pi * cg.h
-        if material == "Al":
-            N_e = volume * ab.atom_density_al
-        elif material == "Fe":
-            N_e = volume * ab.atom_density_fe
-        else:
-            raise ValueError("Invalid material")
-        return N_e
+            is_ring = False
+            if "Al" in label:
+                material = "Al"
+            elif "Fe" in label:
+                material = "Fe"
+            else:
+                raise ValueError("Invalid material in label")
+        d_sigma = diff_cross_section(theta_deg=angles[PEAKS.index((spec, label, fit_range, identifier))].n, 
+                                     material=material, is_ring=is_ring, energy_peak_fitted=ufloat(energy_peak_fitted, 
+                                                                                                   energy_errors[PEAKS.index((spec, label, fit_range, identifier))]), 
+                                     peak_id=identifier, kollimDM=kollimDM, detectDM=detectDM, r0_conv=r0_conv, r_conv=r_conv,
+                                     activity=activity, I_gamma=I_gamma, rates=rates, eff_points=eff_points, PEAKS=PEAKS)
+        print(f"{label}: d_sigma = {d_sigma} cm^2")
+        d_sigmas.append(d_sigma)
+    ### Convert to miliBarn
+    d_sigmas = [ds * 1e27 for ds in d_sigmas] # cm^2 to mbarn
+    ### Plotting d_sigma vs theta for ring and conv geometries, with error bars
+    plt.close()
+    plt.figure()
+    plt.errorbar([a.n for a in angles[:5]], [ds.n for ds in d_sigmas[:5]], xerr = [a.s for a in angles[:5]], yerr=[ds.s for ds in d_sigmas[:5]], fmt='o', label='Ring')
+    plt.errorbar([a.n for a in angles[5:][::2]], [ds.n for ds in d_sigmas[5:][::2]], xerr = [a.s for a in angles[5:][::2]], yerr=[ds.s for ds in d_sigmas[5:][::2]], fmt='o', label='Conv, Al')
+    plt.errorbar([a.n for a in angles[6:][::2]], [ds.n for ds in d_sigmas[6:][::2]], xerr = [a.s for a in angles[6:][::2]], yerr=[ds.s for ds in d_sigmas[6:][::2]], fmt='o', label='Conv, Fe')
+    plt.xlabel("Streuwinkel (Grad)")
+    plt.ylabel("Differentieller Wirkungsquerschnitt (cm^2)")
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
     
-    def diff_cross_section(theta_deg: float, material: str, is_ring: bool, energy_peak_fitted: UFloat) -> UFloat:
-        if is_ring:
-            r, r0 = get_r_r0_ring(theta_deg)
-            F_D = np.pi*(detectDM/2)**2
-        else:
-            r, r0 = r_conv, r0_conv
-            F_D = np.pi*(kollimDM/2)**2
-        eta = get_eta(material, energy_peak_fitted, x_before=cg.x_luft1, x_after=cg.x_luft2, x_inside=cg.x_material)
-        #### .....
+    
 if __name__ == "__main__":
     main()

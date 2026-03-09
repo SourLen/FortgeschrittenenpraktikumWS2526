@@ -2,8 +2,8 @@ import numpy as np
 from uncertainties import ufloat, UFloat ### UFloat nur für type hinting in funktionen iwie kp mein vscode meckert bei ufloat
 from uncertainties import umath
 from scipy.optimize import curve_fit
-from FortgeschrittenenpraktikumWS2526.Versuche.T2.Auswertung.Refactored.ring_geometry_ref import x2, x1, xring
-from FortgeschrittenenpraktikumWS2526.Versuche.T2.Auswertung.Refactored.convential_geometry_ref import x_luft1, x_luft2, x_material
+from ring_geometry_ref import x2, x1, xring
+from convential_geometry_ref import *
 from scipy.constants import N_A
 # calculations for absorbtion
 
@@ -19,7 +19,7 @@ density_al = 2.330E+00 # g/cm^3 https://physics.nist.gov/PhysRefData/XrayMassCoe
 E_ref_al = np.array([1.50000E-01, 2.00000E-01, 3.00000E-01, 4.00000E-01, 5.00000E-01, 6.00000E-01, 8.00000E-01]) # MeV https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z13.html
 mac_ref_al = np.array([1.378E-01, 1.223E-01, 1.042E-01, 9.276E-02, 8.445E-02, 7.802E-02, 6.841E-02]) # cm^2/g https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z13.html
 al_data = [density_al, E_ref_al, mac_ref_al]
-atomic_weight_al = 26.981 +#g/mol  https://pubchem.ncbi.nlm.nih.gov/#query=Aluminium
+atomic_weight_al = 26.981 #g/mol  https://pubchem.ncbi.nlm.nih.gov/#query=Aluminium
 
 
 density_fe = 7.874E+00 # g/cm^3 https://physics.nist.gov/PhysRefData/XrayMassCoef/tab1.html
