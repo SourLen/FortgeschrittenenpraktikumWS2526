@@ -1,40 +1,18 @@
-'''
-Kopie von 1a
-'''
-
-
 import serial
 import time
 
-ser = serial.Serial('PORT', 9600)
+ser = serial.Serial('COM6', 9600)
 time.sleep(2)
 
-with open('output.txt', 'w') as f:
-    count = 0
-    max_events = 10
-    while count < max_events:
-        if ser.in_waiting > 1:
-            data = ser.read(2)
-            l1 = data[0]
-            l2 = data[1]
-            
-            timestampe = time.time()
-            f.write(f"{timestampe}: {l1}, {l2}\n")
-            count += 1
-    ser.close()
-    
-### Alternative Steuerung delay via python
-'''
-import serial
-import time 
-
-ser = serial.Serial('PORT', 9600)
-time.sleep(2)
-
-while True:
-    ser.write(b'1')
-    time.sleep(1)
-    ser.write(b'0')
-    time.sleep(1)
-'''
-
+with open('output_1b.txt', 'w') as f:
+    f.write("Timestamp, State1, State2\n")
+    counts = 0
+    while counts < 60:
+        line = ser.readline().decode('utf-8').rstrip()
+        parts = line.split(',')
+        timestamp = float(parts[0])
+        State1= int(parts[1])
+        State2 = int(parts[2])
+        f.write(f"{timestamp}, {State1}, {State2}\n")
+        counts += 1
+ser.close()

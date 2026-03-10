@@ -31,10 +31,13 @@ void loop() {
   digitalWrite(ledPin1, ledState1);
   digitalWrite(ledPin2, ledState2);
 
-  Serial.write(ledState1);
-  Serial.write(ledState2);
+  Serial.print(millis());
+  Serial.print(",");
+  Serial.print(ledState1);
+  Serial.print(",");
+  Serial.println(ledState2);
 
-  delay(2000);
+  delay(1000);
 
   // LED1 ON
   ledState1 = HIGH;
@@ -43,33 +46,41 @@ void loop() {
   digitalWrite(ledPin1, ledState1);
   digitalWrite(ledPin2, ledState2);
 
-  Serial.write(ledState1);
-  Serial.write(ledState2);
+  Serial.print(millis());
+  Serial.print(",");
+  Serial.print(ledState1);
+  Serial.print(",");
+  Serial.println(ledState2);
 
-  delay(2000);
+  delay(1000);
 
   // LED2 ON
-  ledState1 = LOW;
-  ledState2 = HIGH;
-
-  digitalWrite(ledPin1, ledState1);
-  digitalWrite(ledPin2, ledState2);
-
-  Serial.write(ledState1);
-  Serial.write(ledState2);
-
-  delay(2000);
-
-  // both ON
   ledState1 = HIGH;
   ledState2 = HIGH;
 
   digitalWrite(ledPin1, ledState1);
   digitalWrite(ledPin2, ledState2);
 
-  Serial.write(ledState1);
-  Serial.write(ledState2);
+  Serial.print(millis());
+  Serial.print(",");
+  Serial.print(ledState1);
+  Serial.print(",");
+  Serial.println(ledState2);
 
-  delay(2000);
+  delay(1000);
 
+  // both ON
+  ledState1 = LOW;
+  ledState2 = HIGH;
+
+  digitalWrite(ledPin1, ledState1);
+  digitalWrite(ledPin2, ledState2);
+
+  Serial.print(millis());
+  Serial.print(",");
+  Serial.print(ledState1);
+  Serial.print(",");
+  Serial.println(ledState2);
+
+  delay(1000);
 }

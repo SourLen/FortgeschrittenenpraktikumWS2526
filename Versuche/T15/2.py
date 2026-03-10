@@ -1,16 +1,18 @@
 import serial
 import time
 
-ser = serial.Serial('PORT_NAME', 9600)
+ser = serial.Serial('COM4', 9600)
 time.sleep(2)
 
 with open('2_temp_output.txt', 'w') as f:
-    f.write("Timestamp, Temperatur in Grad Celsius, Index\n")
+    f.write("Index, Timestamp, Temperatur in Grad Celsius\n")
+    timestamp = 0
     while True:
         line = ser.readline().decode('utf-8').rstrip() 
         parts = line.split(',')
         idx = int(parts[0])
-        temp = float(parts[1])
-        timestamp = time.time()
-        f.write(f"{timestamp}, {temp}, {idx}\n")
+        timestamp = float(parts[1])
+        temp = float(parts[2])
+        print(f"Index: {idx}, Timestamp: {timestamp}, Temperature: {temp}")
+        f.write(f"{idx}, {timestamp}, {temp}\n")
 ser.close()
