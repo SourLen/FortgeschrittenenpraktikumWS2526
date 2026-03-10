@@ -4,7 +4,7 @@ import time
 ser = serial.Serial('COM4', 9600)
 time.sleep(2)
 
-with open('output_1a_2.txt', 'w') as f:
+with open('1a_output.txt', 'w') as f:
     f.write("Timestamp, State\n")
     counts = 0
     while counts < 10:
