@@ -1,53 +1,50 @@
-import serial
 import time
+import board
+import busio
+import adafruit_lsm9ds1
+import RPi.GPIO as GPIO
 import csv
 
-PORT = "PORT"
-BAUD = 115200
-OUTFILE = "aufzug.csv"
+# Define the switch
+switch = 14   # GPIO14 = physical pin 8
 
-ser = serial.Serial(PORT, BAUD, timeout=1)
-time.sleep(2)
-ser.reset_input_buffer()
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(switch, GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
-with open(OUTFILE, "w", newline="") as f:
-    writer = csv.writer(f)
-    writer.writerow([
-        "pi_time",
-        "arduino_ms",
-        "ax", "ay", "az",
-        "mx", "my", "mz"
-    ])
+# I2C setup with LSM9DS1
+i2c = busio.I2C(board.SCL, board.SDA)
+sensor = adafruit_lsm9ds1.LSM9DS1_I2C(i2c)
 
-    try:
-        while True:
-            line = ser.readline().decode(errors="ignore").strip()
-            if not line:
-                continue
+# Setting up csv
 
-            parts = line.split(",")
-            if len(parts) != 7:
-                continue
+f = open("elevator_data.csv", "w")
 
-            try:
-                arduino_ms = int(parts[0])
-                ax = float(parts[1])
-                ay = float(parts[2])
-                az = float(parts[3])
-                mx = float(parts[4])
-                my = float(parts[5])
-                mz = float(parts[6])
-            except ValueError:
-                continue
+writer = csv.writer(f)
+writer.writerow(["Time", "accel_x", "accel_y", "accel_z", "gyro_x", "gyro_y", "gyro_z", "mag_x", "mag_y", "mag_z"])
 
-            pi_time = time.time()
-            writer.writerow([pi_time, arduino_ms, ax, ay, az, mx, my, mz])
-            f.flush()
 
-            print(f"{arduino_ms:8d} ms | "
-                  f"a=({ax:7.3f}, {ay:7.3f}, {az:7.3f}) m/s² | "
-                  f"B=({mx:7.3f}, {my:7.3f}, {mz:7.3f})")
-    except KeyboardInterrupt:
-        pass
+print("Waiting for switch pin to go LOW...")
 
-ser.close()
+try:
+	while True:
+		if GPIO.input(switch) == GPIO.LOW:  # pin down
+			accel_x, accel_y, accel_z = sensor.acceleration
+			gyro_x, gyro_y, gyro_z = sensor.gyro
+			mag_x, mag_y, mag_z = sensor.magnetic
+			timestamp = time.time() 
+
+			print("Acceleration (m/s^2):", accel_x, accel_y, accel_z)
+			print("Gyroscope (rad/s):", gyro_x, gyro_y, gyro_z)
+			print("Magnetometer (gauss):", mag_x, mag_y, mag_z)
+			print("------------------")
+
+			row = [timestamp, accel_x, accel_y, accel_z, gyro_x, gyro_y, gyro_z,mag_x, mag_y, mag_z]
+			writer.writerow(row)
+		else:
+			print("Pin HIGH -> not measuring")
+
+		time.sleep(0.5)
+
+except KeyboardInterrupt:
+	GPIO.cleanup()
+	f.close()
