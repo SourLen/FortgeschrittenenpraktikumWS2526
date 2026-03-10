@@ -30,7 +30,9 @@ void loop() {
   digitalWrite(trigger, LOW);
 
   time = pulseIn(echo, HIGH);
-  Serial.println(time)
+  Serial.print(meas_num);
+  Serial.print(",");
+  Serial.println(time);
   meas_num ++;
 
 }
