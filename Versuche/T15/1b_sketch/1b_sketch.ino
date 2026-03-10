@@ -3,84 +3,33 @@ Authors: Lennart Sauer, Sinan Blanck
 
 Date: Mar. 10, 2026
 
-Control two Leds at the same time, letting them blink individually and together
+Measure the Temerature with a DS18B20 Sensor
 
 */
 
-int ledPin1 = 10;
-int ledPin2 = 8;
-
-int ledState1;
-int ledState2;
-
+#include <DallasTemperature.h>
+#include <OneWire.h>
+#define ONE_WIRE_BUS 5
+OneWire oneWire(ONE_WIRE_BUS);
+DallasTemperature sensors(&oneWire);
+int meas_num = 0;
+float temp;
 void setup() {
-
+  // put your setup code here, to run once:
   Serial.begin(9600);
-
-  pinMode(ledPin1, OUTPUT);
-  pinMode(ledPin2, OUTPUT);
-
+  sensors.begin();
 }
 
 void loop() {
+  // put your main code here, to run repeatedly:
+  sensors.requestTemperatures();
+  temp = sensors.getTempCByIndex(0);
 
-  // both OFF
-  ledState1 = LOW;
-  ledState2 = LOW;
-
-  digitalWrite(ledPin1, ledState1);
-  digitalWrite(ledPin2, ledState2);
-
+  Serial.print(meas_num);
+  Serial.print(",");
   Serial.print(millis());
   Serial.print(",");
-  Serial.print(ledState1);
-  Serial.print(",");
-  Serial.println(ledState2);
-
-  delay(1000);
-
-  // LED1 ON
-  ledState1 = HIGH;
-  ledState2 = LOW;
-
-  digitalWrite(ledPin1, ledState1);
-  digitalWrite(ledPin2, ledState2);
-
-  Serial.print(millis());
-  Serial.print(",");
-  Serial.print(ledState1);
-  Serial.print(",");
-  Serial.println(ledState2);
-
-  delay(1000);
-
-  // LED2 ON
-  ledState1 = HIGH;
-  ledState2 = HIGH;
-
-  digitalWrite(ledPin1, ledState1);
-  digitalWrite(ledPin2, ledState2);
-
-  Serial.print(millis());
-  Serial.print(",");
-  Serial.print(ledState1);
-  Serial.print(",");
-  Serial.println(ledState2);
-
-  delay(1000);
-
-  // both ON
-  ledState1 = LOW;
-  ledState2 = HIGH;
-
-  digitalWrite(ledPin1, ledState1);
-  digitalWrite(ledPin2, ledState2);
-
-  Serial.print(millis());
-  Serial.print(",");
-  Serial.print(ledState1);
-  Serial.print(",");
-  Serial.println(ledState2);
-
-  delay(1000);
+  Serial.println(temp);
+  meas_num++;
+  delay(500);
 }

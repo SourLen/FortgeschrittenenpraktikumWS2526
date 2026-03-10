@@ -4,7 +4,7 @@ import time
 ser = serial.Serial('COM4', 9600)
 time.sleep(2)
 
-with open('2_temp_output.txt', 'w') as f:
+with open('2_noise_output.txt', 'w') as f:
     f.write("Index, Timestamp, Temperatur in Grad Celsius\n")
     timestamp = 0
     while True:
