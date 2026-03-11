@@ -17,7 +17,7 @@ sensor = adafruit_lsm9ds1.LSM9DS1_I2C(i2c)
 
 # Setting up csv
 
-f = open("elevator_data.csv", "w")
+f = open("live_data_new.csv", "w")
 
 writer = csv.writer(f)
 writer.writerow(["Time", "accel_x", "accel_y", "accel_z", "gyro_x", "gyro_y", "gyro_z", "mag_x", "mag_y", "mag_z"])
@@ -43,7 +43,7 @@ try:
 		else:
 			print("Pin HIGH -> not measuring")
 
-		time.sleep(0.5)
+		time.sleep(0.05)
 
 except KeyboardInterrupt:
 	GPIO.cleanup()
