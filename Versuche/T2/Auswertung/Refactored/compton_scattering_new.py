@@ -25,8 +25,8 @@ I_GAMMA_CS = ufloat(0.8510, 0.0020)
 M_E_KEV = ufloat(511.0, 0.00001)
 
 Z_BY_MATERIAL = {
-    "Al": 13,
-    "Fe": 26,
+    "Al": 3,
+    "Fe": 8,
 }
 
 
@@ -128,14 +128,14 @@ def efficiency_from_linear_fit(E_keV: UFloat, popt: np.ndarray, pcov: np.ndarray
 # Geometry
 # =========================================================
 
-def ring_geometry_factors(angle_deg: float) -> GeometryFactors:
+def ring_geometry_factors(angle_deg: float, diameter: UFloat = rg.d) -> GeometryFactors:
     idx = int(round(angle_deg / 10.0) - 1)
     if idx < 0 or idx >= len(rg.a):
         raise ValueError(f"Unsupported ring angle {angle_deg}°")
 
     # Distances from point-like approximation based on measured a,b,d
-    r = umath.sqrt(rg.a[idx] ** 2 + (rg.d / 2) ** 2)
-    r0 = umath.sqrt(rg.b[idx] ** 2 + (rg.d / 2) ** 2)
+    r = umath.sqrt(rg.a[idx] ** 2 + (diameter / 2) ** 2)
+    r0 = umath.sqrt(rg.b[idx] ** 2 + (diameter / 2) ** 2)
 
     # Ring geometry path lengths from ring_geometry_ref / absorbtion_ref convention
     x_after = rg.x1[idx]
@@ -441,7 +441,15 @@ def main() -> None:
         rate_sinv = pf.area / meas.spectrum.live_time_s
         efficiency = efficiency_from_linear_fit(energy_keV, eff_popt, eff_pcov)
 
-        geo = ring_geometry_factors(meas.angle.n) if meas.geometry == 'ring' else conv_geo
+        if meas.geometry == "ring" and meas.identifier == "r10":
+            r10_diam = ufloat(23.5, np.sqrt(2 * 0.1**2 / 12))
+            geo = ring_geometry_factors(meas.angle.n, diameter = r10_diam)
+        elif meas.geometry == "ring":
+            geo = ring_geometry_factors(meas.angle.n)
+        elif meas.geometry == "conv":
+            geo = conv_geo
+        else:
+            raise ValueError(f"Unknown geometry '{meas.geometry}' for measurement '{meas.identifier}'")
         eta = absorption_factor(meas.material, energy_keV, geo)
         n_e = electron_count(meas.material, meas.geometry)
         dsdo = differential_cross_section(rate_sinv, activity, I_GAMMA_CS, efficiency, eta, n_e, geo)
