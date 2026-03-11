@@ -8,15 +8,15 @@ This first Experiment introduces the foundations on setting up, controlling and 
 
 \subsection{Execution}
 
-\subsubsection{part a}
+\subsubsection{Part a}
 
-For this first experiment we set up the Arduino Uno with our Laptop and implemented the following code for the Arduino.
-
-\begin{figure}
+\begin{figure}[ht]
     \centering
-    \includegraphics[width=0.5\textwidth]{../temp_figures}
-
+    \includegraphics[width=0.5\textwidth]{../temp_figures/exp1/exp1a.jpg}
 \end{figure}
+
+\noindent
+For this first experiment we set up the Arduino Uno with our Laptop and implemented the following code for the Arduino.
 
 \inputminted[bgcolor=lightgray]{c}{../experiments/exp1a/arduino/1a_sketch.ino}
 
@@ -25,6 +25,47 @@ For the Laptop we implemented the following code in Python to read the serial ou
 
 \inputminted[bgcolor=lightgray]{python}{../experiments/exp1a/python/1a.py}
 
-\subsubsection{part b}
+\subsubsection{Part b}
 
-For the second part of the experiment we set up the 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{../temp_figures/exp1/exp1b.jpg}
+\end{figure}
+
+\noindent
+For the second part of the experiment we set up the Arduino Nano with our Laptop and implemented the following code for the Arduino.
+
+\inputminted[bgcolor=lightgray]{c}{../experiments/exp1b/arduino/1b_sketch.ino}
+
+\noindent
+The python code for the Laptop was accordingly adapted to read the serial output of the Arduino Nano and save the data.
+
+\inputminted[bgcolor=lightgray]{python}{../experiments/exp1b/python/1b.py}
+
+\subsubsection{Part c}
+
+For the last part of the experiment we set up the Rasperry Pi to control the LEDs via GPIO Pins.
+
+\inputminted[bgcolor=lightgray]{python}{../experiments/exp1c/python/1c.py}
+
+\subsection{Results}
+
+We managed to adress all the LEDs and save the data. We used this data to plot the State of the LEDs with the time by using \texttt{matplotlib.pyplot.step()}
+
+\begin{figure}[ht]
+    \caption{Plot for #1a}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../temp_figures/exp1/1a.pdf}
+\end{figure}
+
+\begin{figure}[ht]
+    \caption{Plot for #1b}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../temp_figures/exp1/1b.pdf}
+\end{figure}
+
+\begin{figure}[ht]
+    \caption{Plot for #1c}
+    \centering
+    \includegraphics[width=0.9\textwidth]{../temp_figures/exp1/1c.pdf}
+\end{figure}
