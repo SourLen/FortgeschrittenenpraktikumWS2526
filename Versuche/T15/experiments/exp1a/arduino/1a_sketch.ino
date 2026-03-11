@@ -18,7 +18,7 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  ledState = LOW; // Bei Arduino entspricht LOW quasi 0, HIGH quasi 1, total toll und logisch haha hihi
+  ledState = LOW; // Bei Arduino entspricht LOW quasi 0, HIGH quasi 1, total toll
   digitalWrite(pin, ledState);
   Serial.print(millis());
   Serial.print(", ");

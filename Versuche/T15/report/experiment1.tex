@@ -1,0 +1,30 @@
+% !TeX root = ./T15_report.tex
+
+\section{Experiment 1}
+
+\subsection{Theoretical Backround}
+
+This first Experiment introduces the foundations on setting up, controlling and reading Arduinos (Uno, Nano) and a Rasperry Pi using the according software.
+
+\subsection{Execution}
+
+\subsubsection{part a}
+
+For this first experiment we set up the Arduino Uno with our Laptop and implemented the following code for the Arduino.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\textwidth]{../temp_figures}
+
+\end{figure}
+
+\inputminted[bgcolor=lightgray]{c}{../experiments/exp1a/arduino/1a_sketch.ino}
+
+\noindent
+For the Laptop we implemented the following code in Python to read the serial output of the Arduino and save the data.
+
+\inputminted[bgcolor=lightgray]{python}{../experiments/exp1a/python/1a.py}
+
+\subsubsection{part b}
+
+For the second part of the experiment we set up the 

@@ -16,6 +16,7 @@ def plot_states(data, unit):
     if nplot > 1:
         fig, ax = plt.subplots(nplot+1, 1, sharex=True, figsize = (9,9))
         fig.supxlabel("t in s")
+        fig.suptitle(f'Experiment #1{["a","b","c"][nplot-1]}')
         for i in range(nplot):
             if unit == "ms":
                 ax[0].step((data[:,0]-data[0,0])/1000, data[:,i+1], alpha = 1/nplot, color = colors[i])
@@ -35,6 +36,7 @@ def plot_states(data, unit):
             ax[i+1].set_xlim((0,20))
             ax[i+1].set_ylabel(f"State of LED {i+1}")
     else:
+        plt.title(f'Experiment #1{["a","b","c"][nplot-1]}')
         if unit == "ms":
             plt.step((data[:,0]-data[0,0])/1000, data[:,1], color = colors[0])
         elif unit == "s":
@@ -44,7 +46,7 @@ def plot_states(data, unit):
         plt.xlim((0,20))
         plt.xlabel("t in s")
         plt.ylabel("State of the LED")
-    plt.show()
+    plt.savefig(f"../temp_figures/exp1/1{["a","b","c"][nplot-1]}.pdf")
 
 plot_states(dataa, unita)
 plot_states(datab, unitb)
