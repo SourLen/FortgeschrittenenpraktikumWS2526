@@ -14,7 +14,7 @@ import absorbtion_ref as ab
 import ring_geometry_ref as rg
 import convential_geometry_ref as cg
 from scipy.constants import c as speed_of_light_m_per_s
-
+import pandas as pd
 # =========================================================
 # Constants
 # =========================================================
@@ -25,8 +25,8 @@ I_GAMMA_CS = ufloat(0.8510, 0.0020)
 M_E_KEV = ufloat(511.0, 0.00001)
 
 Z_BY_MATERIAL = {
-    "Al": 3,
-    "Fe": 8,
+    "Al": 13,
+    "Fe": 26,
 }
 
 
@@ -147,7 +147,7 @@ def ring_geometry_factors(angle_deg: float, diameter: UFloat = rg.d) -> Geometry
 
 
 def conventional_geometry_factors() -> GeometryFactors:
-    r = cg.s1 + cg.s2 + cg.rT
+    r = cg.s1 + cg.s2 
     r0 = cg.rT - cg.s0
     x_before = cg.x_luft1
     x_after = cg.x_luft2
@@ -410,7 +410,21 @@ def plot_inverse_energy_diff_vs_one_minus_cos(results: list[AnalysisResult]) -> 
 # =========================================================
 # Main analysis
 # =========================================================
-
+data_to_save = {
+    "angle_deg": [],
+    "material": [],
+    "geometry": [],
+    "r_0^2": [],
+    "r^2": [],
+    "rate_sinv": [],
+    "activity_kBq": [],
+    "I_gamma": [],
+    "efficiency": [],
+    "eta": [],
+    "n_electrons": [],
+    "F_D_cm2": [],
+    "dsdo_cm2": [],
+}
 def main() -> None:
     script_dir = Path(__file__).resolve().parent
     energy_cal = load_energy_calibration(script_dir  / 'energy_calibration.json')
@@ -471,13 +485,23 @@ def main() -> None:
 
         #print(f'{meas.label:14s}E={energy_keV} keV  activity = {activity}   rate={rate_sinv}  eps={efficiency}  eta={eta}  N_e={n_e}   solid_angle = {geo.F_D / geo.r**2} dsdo={dsdo} cm^2/sr')
         ### Save: angle, material,r_0^2, r^2, rate, activity, I_gamma, eps, eta, N_electron, F_D, dsdo into a csv file
-        with open("compton_scattering_res.csv", "a") as f:
-            if ind == 0:
-                f.truncate(0)  # Datei leeren, falls sie schon existiert
-                f.write("angle,material,r0^2(cm^2),r^2(cm^2),rate(counts/sec),activity(Bq),I_gamma,eps,eta,N_electron,F_D(cm^2),dsdo(cm^2/sr)\n")
-            f.write(f"{meas.angle.n},{meas.material},{geo.r0.n**2},{geo.r.n**2},{rate_sinv.n},{activity.n*1000.0},{I_GAMMA_CS.n},{efficiency.n},{eta.n},{n_e.n},{geo.F_D.n},{dsdo.n}\n")
+        data_to_save["angle_deg"].append(meas.angle.n)
+        data_to_save["material"].append(meas.material)
+        data_to_save["geometry"].append(meas.geometry)
+        data_to_save["r_0^2"].append(geo.r0.n**2)
+        data_to_save["r^2"].append(geo.r.n**2)
+        data_to_save["rate_sinv"].append(rate_sinv.n)
+        data_to_save["activity_kBq"].append(activity.n)
+        data_to_save["I_gamma"].append(I_GAMMA_CS.n)
+        data_to_save["efficiency"].append(efficiency.n)
+        data_to_save["eta"].append(eta.n)
+        data_to_save["n_electrons"].append(n_e.n)
+        data_to_save["F_D_cm2"].append(geo.F_D.n)
+        data_to_save["dsdo_cm2"].append(dsdo.n)
+        
         ind += 1
         print(f"angle: {meas.angle.n}, rate:{rate_sinv}")
+    pd.DataFrame(data_to_save).to_csv(script_dir / "compton_scattering_results.csv", sep = ";", decimal = ",", index=False, encoding="utf-8")
     plot_energy_vs_angle(results)
     plot_dsdo_vs_angle(results)
     plot_inverse_energy_diff_vs_one_minus_cos(results)
