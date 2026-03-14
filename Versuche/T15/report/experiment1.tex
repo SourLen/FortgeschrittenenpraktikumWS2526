@@ -4,7 +4,7 @@
 
 \subsection{Theoretical Backround}
 
-This first Experiment introduces the foundations on setting up, controlling and reading Arduinos (Uno, Nano) and a Rasperry Pi using the according software.
+This first Experiment introduces the foundations on setting up, controlling and reading Arduinos (Uno, Nano) and a \textsf{Rasperry Pi} using the according software.
 
 \subsection{Execution}
 
@@ -16,7 +16,7 @@ This first Experiment introduces the foundations on setting up, controlling and 
 \end{figure}
 
 \noindent
-For this first experiment we set up the Arduino Uno with our Laptop and implemented the following code for the Arduino.
+For this first experiment we set up the \textsf{Arduino Uno} with our Laptop and implemented the following code for the Arduino.
 
 \inputminted[bgcolor=lightgray]{c}{../experiments/exp1a/arduino/1a_sketch.ino}
 
@@ -33,39 +33,39 @@ For the Laptop we implemented the following code in Python to read the serial ou
 \end{figure}
 
 \noindent
-For the second part of the experiment we set up the Arduino Nano with our Laptop and implemented the following code for the Arduino.
+For the second part of the experiment we set up the \textsf{Arduino Nano} with our Laptop and implemented the following code for the Arduino.
 
 \inputminted[bgcolor=lightgray]{c}{../experiments/exp1b/arduino/1b_sketch.ino}
 
 \noindent
-The python code for the Laptop was accordingly adapted to read the serial output of the Arduino Nano and save the data.
+The python code for the Laptop was accordingly adapted to read the serial output of the \textsf{Arduino Nano} and save the data.
 
 \inputminted[bgcolor=lightgray]{python}{../experiments/exp1b/python/1b.py}
 
 \subsubsection{Part c}
 
-For the last part of the experiment we set up the Rasperry Pi to control the LEDs via GPIO Pins.
+For the last part of the experiment we set up the \textsf{Rasperry Pi} to control the LEDs via GPIO Pins.
 
 \inputminted[bgcolor=lightgray]{python}{../experiments/exp1c/python/1c.py}
 
 \subsection{Results}
 
-We managed to adress all the LEDs and save the data. We used this data to plot the State of the LEDs with the time by using \texttt{matplotlib.pyplot.step()}
+We managed to adress all the LEDs and save the data. We used this data to plot the State of the LEDs with the time by using \texttt{matplotlib.pyplot.step()}.
 
-\begin{figure}[ht]
-    \caption{Plot for #1a}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{../temp_figures/exp1/1a.pdf}
+    \includegraphics[width=0.7\textwidth]{../temp_figures/exp1/1a.pdf}
+    \caption{Plot for 1a}
 \end{figure}
 
-\begin{figure}[ht]
-    \caption{Plot for #1b}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{../temp_figures/exp1/1b.pdf}
+    \includegraphics[width=0.7\textwidth]{../temp_figures/exp1/1b.pdf}
+    \caption{Plot for 1b}
 \end{figure}
 
-\begin{figure}[ht]
-    \caption{Plot for #1c}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\textwidth]{../temp_figures/exp1/1c.pdf}
+    \includegraphics[width=0.7\textwidth]{../temp_figures/exp1/1c.pdf}
+    \caption{Plot for 1c}
 \end{figure}
