@@ -1,0 +1,105 @@
+% !TeX root = ./T15_report.tex
+
+\section{Experiment 2}
+
+\subsection{Theoretical Backround}
+
+The goal of this experiment was to measure the cooling process of hot water in a Cup an predicting the end(room)-temperature. The temperature is expected to be described by the exponential curve
+\begin{equation}
+    T(t) = (T_0-T_R)e^{-kt}-T_R
+\end{equation}
+
+\noindent
+where $T_0$ is the start temperature, $T_R$ room temperature and $1/k$ the time, when $T(t)-T_R$ has dropped by $\frac{1}{e}$.
+
+\subsection{Execution}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=5cm]{../temp_figures/exp2/exp2_1.jpg}
+    \includegraphics[height=5cm]{../temp_figures/exp2/exp2_2.jpg}
+    \caption{Pictures of the set up}
+    \label{exp2picture}
+\end{figure}
+
+As shown in \ref{exp2picture}, we used the setup as described in the instruction including the \textsf{S18B20 Waterproof Termperature sensor} and the \textsf{Arduino Uno}, again connected to our Laptop. Using a USB cable we adressed the Arduino implementing following code in the Arduino IDE
+
+\inputminted[bgcolor=lightgray]{c}{../experiments/exp2/arduino/2_sketch.ino}
+
+\noindent
+Using this sketch the Arduino reads the sensor every 0.5 seconds and prints the temperature as well as the internal time.\\
+To read and save the data we again used a python script on our laptop.
+
+\inputminted[bgcolor=lightgray]{python}{../experiments/exp2/python/2.py}
+
+\subsection{Results}
+
+First, lets take a look at the error. The manufactorer \cite{data_DS18B20} states an accurracy of $\pm 0.5$. Dividing it by $\sqrt{3}$ gives us the uncertainty
+\begin{equation}\label{man}
+    \sigma_{\text{man}} = \frac{0.5}{\sqrt{3}}\unit{\celsius} \approx 0.29 \unit{\celsius}.
+\end{equation}
+Further we take a look at the digitalization error. 
+\begin{figure}[H]
+    \centering
+    \label{last30}
+    \includegraphics[width=0.8\textwidth]{../temp_figures/exp2/2_2.pdf}
+    \caption{Plot of the last 30 measurements}
+\end{figure}
+\noindent
+As we can see, the smallest step of the sensor is $0.065 \unit{\celsius}$. Dividing it by $\sqrt{12}$ grants us the digitalization uncertainty
+\begin{equation}\label{dig}
+    \sigma_\text{dig}=\frac{0.065}{\sqrt{12}}\unit{\celsius} \approx 0.02 \unit{\celsius}.
+\end{equation}
+Lastly we calculate the standart derviation of our noise measurement and recieve
+\begin{equation}\label{noise}
+    \sigma_\text{noise} \approx 0.03 \unit{\celsius}.
+\end{equation}
+Using \ref{man}, \ref{dig} and \ref{noise} we calculate the total uncertainty
+\begin{equation}
+    \sigma = \sqrt{\sigma_{\text{man}}^2 + \sigma_\text{dig}^2 + \sigma_\text{noise}^2} = 0.29 \unit{\celsius}.
+\end{equation}
+
+\noindent
+Using this uncertainty we fit the theoretical curve to our measurement data and recieve
+\begin{figure}[H]
+    \centering
+    \label{fit}
+    \includegraphics[width=0.8\textwidth]{../temp_figures/exp2/2_1.pdf}
+    \caption{Plot of the fitted modell}
+\end{figure}
+\noindent
+with the parameters
+\begin{equation*}
+    \begin{aligned}
+        T_R &= (24.02\pm 4.47\cdot 10^{-4}) \unit{\celsius}\\
+        T_0 &= (74.21\pm 1.45\cdot 10^{-3})\unit{\celsius}\\
+        k &=(5.36\cdot 10^{-4} \pm 8.70\cdot 10^{-13}) \unit{\second^{-1}}
+    \end{aligned}
+\end{equation*}
+\noindent
+The predicted Room temperature does fit the expected value. Still, we have a $\chi^2=4.9$. Looking at the plot, the reason seems to be of systematic natur. As a reason, we suspect that the cooling of the room temperature by opening the windows has an effect on the measurement.\\
+A more fitting modell considers this behavior by adding a linear Term:
+\begin{equation}
+    T(t) = (T_0-T_R)e^{-kt}-T_R + at
+\end{equation}
+\noindent
+This new approach results in a more accurate describtion of the process at the cost of the meaningfulness of the fit parameters with
+\begin{equation*}
+    \begin{aligned}
+        T_R &= (34.91\pm 9.66\cdot 10^{-4}) \unit{\celsius}\\
+        T_0 &= (76.25\pm 2.31\cdot 10^{-4})\unit{\celsius}\\
+        k &=(7.61\cdot 10^{-4} \pm 1.04\cdot 10^{-12}) \unit{\second^{-1}}
+        a &= =(1.577\cdot 10^{-3} \pm 2.36\cdot 10^{-11}) \unit{\second^{-1}}
+    \end{aligned}
+\end{equation*}
+\noindent
+Apart from this issues, the new modell delivers a way better description of the measurement.
+\begin{figure}[H]
+    \centering
+    \label{fit_new}
+    \includegraphics[width=0.8\textwidth]{../temp_figures/exp2/2_3.pdf}
+    \caption{Plot of the new fitted modell}
+\end{figure}
+\noindent
+The new $\chi^2$ of $0.46$ is a good indicator for the modell being more fitting, even though it being so low is a sign ob a slight overestimation of the real error on the data.\\
+In comparison, the normal modell does seem to deliver a good estimation of the parameters, though lacking in the description of the measurements while the addition of a linear term seemingly fixes that issue at the cost of the parameters meaning. The truth lies somewhere between those two ideas.
