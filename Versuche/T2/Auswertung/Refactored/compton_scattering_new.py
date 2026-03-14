@@ -176,18 +176,22 @@ def electron_density_per_cm3(material: str) -> float:
     raise ValueError(f"Unknown material '{material}'")
 
 
-def scatterer_volume_cm3(material: str, geometry: str) -> UFloat:
-    if geometry == "ring":
+def scatterer_volume_cm3(material: str, geometry: str, angle_is_10:bool = False) -> UFloat:
+    if geometry == "ring" and not angle_is_10:
         # Torus with square cross section: V = 2*pi*R*a^2, with R = d/2 and a = d2
         return 2.0 * np.pi * (rg.d / 2) * rg.d2**2
+    elif geometry == "ring" and angle_is_10:
+        # Used the smaller ring
+        r10_diam = ufloat(13.5, np.sqrt(2 * 0.1**2 / 12))
+        return 2.0 * np.pi * (r10_diam/2) * rg.d2**2
     if geometry == "conv":
         # Cylinder: V = pi * (Ds/2)^2 * h
         return np.pi * (cg.Ds / 2) ** 2 * cg.h
     raise ValueError(f"Unknown geometry '{geometry}'")
 
 
-def electron_count(material: str, geometry: str) -> UFloat:
-    return scatterer_volume_cm3(material, geometry) * electron_density_per_cm3(material)
+def electron_count(material: str, geometry: str, angle_is_10: bool = False) -> UFloat:
+    return scatterer_volume_cm3(material, geometry, angle_is_10) * electron_density_per_cm3(material)
 
 
 def absorption_factor(material: str, E_after_keV: UFloat, geo: GeometryFactors) -> UFloat:
@@ -427,7 +431,7 @@ def main() -> None:
     print()
 
     results: list[AnalysisResult] = []
-
+    ind = 0
     for meas in measurements:
         pf = fit_peak_single(
             meas.spectrum,
@@ -442,7 +446,7 @@ def main() -> None:
         efficiency = efficiency_from_linear_fit(energy_keV, eff_popt, eff_pcov)
 
         if meas.geometry == "ring" and meas.identifier == "r10":
-            r10_diam = ufloat(23.5, np.sqrt(2 * 0.1**2 / 12))
+            r10_diam = ufloat(13.5, np.sqrt(2 * 0.1**2 / 12))
             geo = ring_geometry_factors(meas.angle.n, diameter = r10_diam)
         elif meas.geometry == "ring":
             geo = ring_geometry_factors(meas.angle.n)
@@ -451,7 +455,7 @@ def main() -> None:
         else:
             raise ValueError(f"Unknown geometry '{meas.geometry}' for measurement '{meas.identifier}'")
         eta = absorption_factor(meas.material, energy_keV, geo)
-        n_e = electron_count(meas.material, meas.geometry)
+        n_e = electron_count(meas.material, meas.geometry, angle_is_10=(meas.geometry == "ring" and meas.identifier == "r10"))
         dsdo = differential_cross_section(rate_sinv, activity, I_GAMMA_CS, efficiency, eta, n_e, geo)
         
         results.append(AnalysisResult(
@@ -465,8 +469,15 @@ def main() -> None:
             dsdo_cm2=dsdo,
         ))
 
-        print(f'{meas.label:14s}E={energy_keV} keV  activity = {activity}   rate={rate_sinv}  eps={efficiency}  eta={eta}  N_e={n_e}   solid_angle = {geo.F_D / geo.r**2} dsdo={dsdo} cm^2/sr')
-
+        #print(f'{meas.label:14s}E={energy_keV} keV  activity = {activity}   rate={rate_sinv}  eps={efficiency}  eta={eta}  N_e={n_e}   solid_angle = {geo.F_D / geo.r**2} dsdo={dsdo} cm^2/sr')
+        ### Save: angle, material,r_0^2, r^2, rate, activity, I_gamma, eps, eta, N_electron, F_D, dsdo into a csv file
+        with open("compton_scattering_res.csv", "a") as f:
+            if ind == 0:
+                f.truncate(0)  # Datei leeren, falls sie schon existiert
+                f.write("angle,material,r0^2(cm^2),r^2(cm^2),rate(counts/sec),activity(Bq),I_gamma,eps,eta,N_electron,F_D(cm^2),dsdo(cm^2/sr)\n")
+            f.write(f"{meas.angle.n},{meas.material},{geo.r0.n**2},{geo.r.n**2},{rate_sinv.n},{activity.n*1000.0},{I_GAMMA_CS.n},{efficiency.n},{eta.n},{n_e.n},{geo.F_D.n},{dsdo.n}\n")
+        ind += 1
+        print(f"angle: {meas.angle.n}, rate:{rate_sinv}")
     plot_energy_vs_angle(results)
     plot_dsdo_vs_angle(results)
     plot_inverse_energy_diff_vs_one_minus_cos(results)

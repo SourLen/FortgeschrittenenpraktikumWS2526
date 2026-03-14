@@ -13,7 +13,7 @@ class Source:
     half_life_days: UFloat
 
     def activity_on(self, date=None):
-        """Return activity at a given date (default: today)."""
+        """Return activity in kBq at a given date (default: today)."""
         if date is None:
             date = datetime(2026, 3, 5)
 
