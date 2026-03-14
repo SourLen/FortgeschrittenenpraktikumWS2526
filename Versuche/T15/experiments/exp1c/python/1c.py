@@ -72,7 +72,7 @@ with open("1c_output.txt", "w") as f:
 
             timestamp = time.time()
 
-            f.write(f"{timestamp}: {a}, {b}, {c}\n")
+            f.write(f"{timestamp}, {a}, {b}, {c}\n")
 
             
 

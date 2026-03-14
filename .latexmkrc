@@ -1,7 +1,7 @@
 # Setting luatex as pdf-generating mode
 
 $pdf_mode = 4;
-$lualatex = 'lualatex -synctex=1 -interaction=nonstopmode %O %S';
+$lualatex = 'lualatex -synctex=1 -interaction=nonstopmode -shell-escape %O %S';
 
 # Work in directory of main tex file
 
