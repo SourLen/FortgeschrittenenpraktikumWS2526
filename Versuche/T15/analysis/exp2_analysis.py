@@ -15,11 +15,28 @@ temp_std_dig = 0.065/np.sqrt(12)
 
 temp_std = np.sqrt(temp_std_dig**2 + temp_std_manufactorer**2 + temp_std_dig**2)
 
+# Plotting the Digiatalization
+
+last_100_temp = temp[-100:]
+last_100_time = time[-100:]
+
+plt.grid()
+plt.scatter(last_100_time, last_100_temp, label = "measurement", marker = ".", color = "black")
+plt.title('Temperature measurement of the last 100 measurements')
+plt.xlabel('Time in s')
+plt.ylabel("Temperature in Kelvin")
+plt.legend()
+plt.savefig("../temp_figures/exp2/2_1.pdf")
+plt.close()
+
+
+
+
+
+# Fitting Data with the normal model
+
 def temp_fit(x, T_R, T_0, k):
       return (T_0 - T_R)*np.exp(-k*x) + T_R
-
-
-# fitting Data 
 
 popt, cov = curve_fit(temp_fit, time, temp, p0=[24.0, 74.1, 0.001], sigma = temp_std)
 temp_fit_data = temp_fit(time, popt[0], popt[1], popt[2])
@@ -28,32 +45,28 @@ r = temp - temp_fit_data
 chisq = np.sum((r/temp_std) ** 2)
 ndof = len(temp) - len(popt)
 
-plt.grid()
-plt.scatter(time, temp, label = "measurement", marker = ".", color = "black")
-plt.plot(time, temp_fit_data, label = f"fit, $\chi^2/ndof =$ {chisq/ndof:.2f}")
-plt.title('Temperature measurement and fit')
-plt.xlabel('Time in s')
-plt.ylabel("Temperature in Kelvin")
-plt.legend()
-plt.savefig("../temp_figures/exp2/2_1.pdf")
-plt.close()
-
-last_30_temp = temp[-130:]
-last_30_time = time[-130:]
-
-plt.grid()
-plt.scatter(last_30_time, last_30_temp, label = "measurement", marker = ".", color = "black")
-plt.title('Temperature measurement of the last 30 measurements')
-plt.xlabel('Time in s')
-plt.ylabel("Temperature in Kelvin")
-plt.legend()
+fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, height_ratios=[3,1])
+fig.supxlabel("Time in s")
+ax1.scatter(time, temp, label = "measurement", marker = ".", color = "black")
+ax1.plot(time, temp_fit_data, label = f"fit, $\\chi^2/ndof =$ {chisq/ndof:.2f}")
+ax1.set_title('Temperature measurement and fit')
+ax1.set_ylabel("Temperature in Kelvin")
+ax1.legend()
+ax1.grid()
+ax2.errorbar(time[::100], r[::100], yerr=temp_std, fmt = ".", color = "black", label="Residues")
+ax2.set_title('Residual Plot')
+ax2.set_ylabel("Temperature in Kelvin")
+ax2.legend()
+ax2.grid()
 plt.savefig("../temp_figures/exp2/2_2.pdf")
 plt.close()
+
+
 
 ## adding linear Term
 
 def temp_fit_linear(x, T_R, T_0, k, a):
-    return (T_0 - T_R)*np.exp(-k*x) + T_R+a*x
+    return (T_0 - T_R*(1+a*x))*np.exp(-k*x) + T_R*(1+a*x)
 
 
 popt_linear, cov_linear = curve_fit(temp_fit_linear, time, temp, p0=[24.0, 74.1, 0.001, 1.0], sigma = temp_std)
@@ -61,25 +74,21 @@ temp_fit_data_linear = temp_fit_linear(time, popt_linear[0], popt_linear[1], pop
 
 r_linear = temp - temp_fit_data_linear
 chisq_linear = np.sum((r_linear/temp_std) ** 2)
-print(chisq_linear/(ndof-1))
 
-plt.grid()
-plt.scatter(time, temp, label = "measurement", marker = ".", color = "black")
-plt.plot(time, temp_fit_data_linear, label = f"fit, $\chi^2/ndof =$ {chisq_linear/ndof:.2f}")
-plt.title('Temperature measurement and fit')
-plt.xlabel('Time in s')
-plt.ylabel("Temperature in Kelvin")
-plt.legend()
+fig, (ax1, ax2) = plt.subplots(2, 1, sharex=True, height_ratios=[3,1])
+fig.supxlabel("Time in s")
+ax1.scatter(time, temp, label = "measurement", marker = ".", color = "black")
+ax1.plot(time, temp_fit_data_linear, label = f"fit, $\\chi^2/ndof =$ {chisq_linear/ndof:.2f}")
+ax1.set_title('Temperature measurement and fit')
+ax1.set_ylabel("Temperature in Kelvin")
+ax1.legend()
+ax1.grid()
+ax2.errorbar(time[::100], r_linear[::100], yerr=temp_std, fmt = ".", color = "black", label="Residues (every 100th)")
+ax2.set_title('Residual Plot')
+ax2.set_ylabel("Temperature in Kelvin")
+ax2.legend()
+ax2.grid()
 plt.savefig("../temp_figures/exp2/2_3.pdf")
-plt.close()
-
-plt.grid()
-plt.scatter(time, r_linear, label = "measurement", marker = ".", color = "black")
-plt.title('Temperature measurement and fit')
-plt.xlabel('Time in s')
-plt.ylabel("Temperature in Kelvin")
-plt.legend()
-plt.savefig("../temp_figures/exp2/2_4.pdf")
 plt.close()
 
 print(popt_linear, cov_linear)

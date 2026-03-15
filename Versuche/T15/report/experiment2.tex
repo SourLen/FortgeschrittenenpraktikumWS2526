@@ -42,7 +42,7 @@ Further we take a look at the digitalization error.
 \begin{figure}[H]
     \centering
     \label{last30}
-    \includegraphics[width=0.8\textwidth]{../temp_figures/exp2/2_2.pdf}
+    \includegraphics[width=0.8\textwidth]{../temp_figures/exp2/2_1.pdf}
     \caption{Plot of the last 30 measurements}
 \end{figure}
 \noindent
@@ -64,7 +64,7 @@ Using this uncertainty we fit the theoretical curve to our measurement data and 
 \begin{figure}[H]
     \centering
     \label{fit}
-    \includegraphics[width=0.8\textwidth]{../temp_figures/exp2/2_1.pdf}
+    \includegraphics[width=0.8\textwidth]{../temp_figures/exp2/2_2.pdf}
     \caption{Plot of the fitted modell}
 \end{figure}
 \noindent
@@ -77,19 +77,19 @@ with the parameters
     \end{aligned}
 \end{equation*}
 \noindent
-The predicted Room temperature does fit the expected value. Still, we have a $\chi^2=4.9$. Looking at the plot, the reason seems to be of systematic natur. As a reason, we suspect that the cooling of the room temperature by opening the windows has an effect on the measurement.\\
-A more fitting modell considers this behavior by adding a linear Term:
+The predicted Room temperature does fit the expected value. However, we have a $\chi^2=4.9$. Looking at the plot of the residues, the error seems to be of systematic natur. As a reason, we suspect that the cooling of the room temperature by opening the windows has an effect on the measurement.\\
+A more fitting modell considers this behavior by looking at the Time dependency of $T_R \to T_R(t)$. We expect this additional time dependency to be small so we only consider terms to the first order.
 \begin{equation}
-    T(t) = (T_0-T_R)e^{-kt}-T_R + at
+    T(t) = (T_0-T_R(1 + at))e^{-kt}-T_R(1 + at)
 \end{equation}
 \noindent
 This new approach results in a more accurate describtion of the process at the cost of the meaningfulness of the fit parameters with
 \begin{equation*}
     \begin{aligned}
-        T_R &= (34.91\pm 9.66\cdot 10^{-4}) \unit{\celsius}\\
-        T_0 &= (76.25\pm 2.31\cdot 10^{-4})\unit{\celsius}\\
-        k &=(7.61\cdot 10^{-4} \pm 1.04\cdot 10^{-12}) \unit{\second^{-1}}
-        a &= =(1.577\cdot 10^{-3} \pm 2.36\cdot 10^{-11}) \unit{\second^{-1}}
+        T_R &= (34.95\pm 9.87\cdot 10^{-4}) \unit{\celsius}\\
+        T_0 &= (76.25\pm 2.34\cdot 10^{-4})\unit{\celsius}\\
+        k &=(7.99\cdot 10^{-4} \pm 1.32\cdot 10^{-12}) \unit{\second^{-1}}\\
+        a &=(-4.50\cdot 10^{-3} \pm 1.02\cdot 10^{-14}) \unit{\second^{-1}}
     \end{aligned}
 \end{equation*}
 \noindent
