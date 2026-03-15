@@ -91,4 +91,7 @@ ax2.grid()
 plt.savefig("../temp_figures/exp2/2_3.pdf")
 plt.close()
 
-print(popt_linear, cov_linear)
+
+print(popt[0], cov[0,0])
+print(popt[1], cov[1,1])
+print(popt[2], cov[2,2])

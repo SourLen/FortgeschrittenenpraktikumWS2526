@@ -65,20 +65,20 @@ Using this uncertainty we fit the theoretical curve to our measurement data and 
     \centering
     \label{fit}
     \includegraphics[width=0.8\textwidth]{../temp_figures/exp2/2_2.pdf}
-    \caption{Plot of the fitted modell}
+    \caption{Plot of the fitted }
 \end{figure}
 \noindent
 with the parameters
 \begin{equation*}
     \begin{aligned}
-        T_R &= (24.02\pm 4.47\cdot 10^{-4}) \unit{\celsius}\\
-        T_0 &= (74.21\pm 1.45\cdot 10^{-3})\unit{\celsius}\\
-        k &=(5.36\cdot 10^{-4} \pm 8.70\cdot 10^{-13}) \unit{\second^{-1}}
+        T_R &= (24.0138\pm 0.0005) \unit{\celsius}\\
+        T_0 &= (74.214\pm 0.002)\unit{\celsius}\\
+        k &=(5.359381463\cdot 10^{-4} \pm 0.000000009)\cdot 10^{-4} \unit{\second^{-1}}
     \end{aligned}
 \end{equation*}
 \noindent
 The predicted Room temperature does fit the expected value. However, we have a $\chi^2=4.9$. Looking at the plot of the residues, the error seems to be of systematic natur. As a reason, we suspect that the cooling of the room temperature by opening the windows has an effect on the measurement.\\
-A more fitting modell considers this behavior by looking at the Time dependency of $T_R \to T_R(t)$. We expect this additional time dependency to be small so we only consider terms to the first order.
+A more fitting model considers this behavior by looking at the Time dependency of $T_R \to T_R(t)$. We expect this additional time dependency to be small so we only consider terms to the first order.
 \begin{equation}
     T(t) = (T_0-T_R(1 + at))e^{-kt}-T_R(1 + at)
 \end{equation}
@@ -86,20 +86,20 @@ A more fitting modell considers this behavior by looking at the Time dependency 
 This new approach results in a more accurate describtion of the process at the cost of the meaningfulness of the fit parameters with
 \begin{equation*}
     \begin{aligned}
-        T_R &= (34.95\pm 9.87\cdot 10^{-4}) \unit{\celsius}\\
-        T_0 &= (76.25\pm 2.34\cdot 10^{-4})\unit{\celsius}\\
-        k &=(7.99\cdot 10^{-4} \pm 1.32\cdot 10^{-12}) \unit{\second^{-1}}\\
-        a &=(-4.50\cdot 10^{-3} \pm 1.02\cdot 10^{-14}) \unit{\second^{-1}}
+        T_R &= (34.954\pm 0.001) \unit{\celsius}\\
+        T_0 &= (76.25\pm 0.0003)\unit{\celsius}\\
+        k &=(7.99040211 \pm 0.00000002)\cdot 10^{-4} \unit{\second^{-1}}\\
+        a &=(-4.493482592 \pm 0.000000002)\cdot 10^{-5} \unit{\second^{-1}}
     \end{aligned}
 \end{equation*}
 \noindent
-Apart from this issues, the new modell delivers a way better description of the measurement.
+Apart from this issues, the new model delivers a way better description of the measurement.
 \begin{figure}[H]
     \centering
     \label{fit_new}
     \includegraphics[width=0.8\textwidth]{../temp_figures/exp2/2_3.pdf}
-    \caption{Plot of the new fitted modell}
+    \caption{Plot of the new fitted model}
 \end{figure}
 \noindent
-The new $\chi^2$ of $0.46$ is a good indicator for the modell being more fitting, even though it being so low is a sign ob a slight overestimation of the real error on the data.\\
-In comparison, the normal modell does seem to deliver a good estimation of the parameters, though lacking in the description of the measurements while the addition of a linear term seemingly fixes that issue at the cost of the parameters meaning. The truth lies somewhere between those two ideas.
+The new $\chi^2$ of $0.46$ is a good indicator for the model being more fitting, even though it being so low is a sign ob a slight overestimation of the real error on the data.\\
+In comparison, the normal model does seem to deliver a good estimation of the parameters, though lacking in the description of the measurements while the addition of a linear term seemingly fixes that issue at the cost of the parameters meaning. The truth lies somewhere between those two ideas.
