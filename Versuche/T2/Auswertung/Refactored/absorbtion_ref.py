@@ -15,7 +15,7 @@ E_gamma = ufloat(0.661657, 0.000003) # Mev Anleitung
 
 ### material data 
 
-density_al = 2.330E+00 # g/cm^3 https://physics.nist.gov/PhysRefData/XrayMassCoef/tab1.html
+density_al = 2.6990E+00 # g/cm^3 https://physics.nist.gov/PhysRefData/XrayMassCoef/tab1.html
 E_ref_al = np.array([1.50000E-01, 2.00000E-01, 3.00000E-01, 4.00000E-01, 5.00000E-01, 6.00000E-01, 8.00000E-01]) # MeV https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z13.html
 mac_ref_al = np.array([1.378E-01, 1.223E-01, 1.042E-01, 9.276E-02, 8.445E-02, 7.802E-02, 6.841E-02]) # cm^2/g https://physics.nist.gov/PhysRefData/XrayMassCoef/ElemTab/z13.html
 al_data = [density_al, E_ref_al, mac_ref_al]
@@ -29,7 +29,7 @@ fe_data = [density_fe, E_ref_fe, mac_ref_fe]
 atomic_weight_fe = 55.845 #g/mol  https://pubchem.ncbi.nlm.nih.gov/#query=iron
 atom_density_al = density_al / atomic_weight_al * N_A # atoms/cm^3
 atom_density_fe = density_fe / atomic_weight_fe * N_A # atoms/cm^3
-
+print(atom_density_al, atom_density_fe)
 density_air = 1.205E-03 # g/cm^3 https://physics.nist.gov/PhysRefData/XrayMassCoef/tab2.html
 E_ref_air = np.array([1.50000E-01, 2.00000E-01, 3.00000E-01, 4.00000E-01, 5.00000E-01, 6.00000E-01, 8.00000E-01]) # MeV https://physics.nist.gov/PhysRefData/XrayMassCoef/ComTab/air.html
 mac_ref_air = np.array([1.356E-01, 1.223E-01, 1.067E-01, 9.549E-02, 8.712E-02, 8.055E-02, 7.074E-02]) # cm^2/g https://physics.nist.gov/PhysRefData/XrayMassCoef/ComTab/air.html
